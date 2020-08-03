@@ -177,9 +177,3 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "mail/register.html")
-
-
-
-
-def sendemail_view():
-    return render(request, "mail/inbox.html")
