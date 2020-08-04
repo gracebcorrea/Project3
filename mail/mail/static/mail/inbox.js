@@ -32,8 +32,15 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 }
 
-function Send_Mail(sender, recipients, subject,body) {
-  var sender = document.getElementByid("compose-sender").value;
+
+window.onpopstate = function(event) {
+    console.log(event.state.section);
+    showSection(event.state.section);
+}
+
+function Send_Mail(recipients, subject,body) {
+
+  const sender=localStorage.getItem('user');
   var recipients = document.getElementByid("compose-recipients").value;
   var subject = document.getElementByid("compose-subject").value;
   var body = document.getElementByid("compose-body").value;
