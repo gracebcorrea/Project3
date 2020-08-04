@@ -38,14 +38,21 @@ window.onpopstate = function(event) {
     showSection(event.state.section);
 }
 
-function Send_Mail(recipients, subject,body) {
+function Send_Mail(recipients, subject, body) {
 
-  const sender=localStorage.getItem('user');
-  var recipients = document.getElementByid("compose-recipients").value;
-  var subject = document.getElementByid("compose-subject").value;
-  var body = document.getElementByid("compose-body").value;
-
-
+  fetch('/emails', {
+      method: 'POST',
+      body: JSON.stringify({
+          recipients:  document.getElementByid("compose-recipients").value,
+          subject:  document.getElementByid("compose-subject").value,
+          body: document.getElementByid("compose-body").value,
+      })
+  })
+  .then(response => response.json())
+  .then(result => {
+       // Print result
+       console.log(result);
+  });
 
 
 }
@@ -53,6 +60,14 @@ function Send_Mail(recipients, subject,body) {
 
 function Mailbox(){
 
+  fetch('/emails/inbox')
+  .then(response => response.json())
+  .then(emails => {
+      // Print emails
+      console.log(emails);
+
+      // ... do something else with emails ...
+  });
 
 
 }
