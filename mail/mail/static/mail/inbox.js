@@ -32,7 +32,13 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 }
 
-function Send_Mail() {
+function Send_Mail(sender, recipients, subject,body) {
+  var sender = document.getElementByid("compose-sender").value;
+  var recipients = document.getElementByid("compose-recipients").value;
+  var subject = document.getElementByid("compose-subject").value;
+  var body = document.getElementByid("compose-body").value;
+
+
 
 
 }
@@ -63,5 +69,5 @@ function Archive_and_Unarchive(){
 
 function Reply(){
 
-  
+
 }
