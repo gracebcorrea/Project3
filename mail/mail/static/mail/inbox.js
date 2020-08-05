@@ -38,7 +38,7 @@ function Mailbox(mailbox){
 
   request.open('GET', '/mailbox');
 
-  fetch('/emails/inbox')
+  fetch(`/emails/${mailbox}`)
   .then(response => response.json())
   .then(emails => {
     // Print emails
