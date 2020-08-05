@@ -30,9 +30,12 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
+
+
+
+
 }
-
-
 
 
 function Send_Mail() {
@@ -58,50 +61,4 @@ function Send_Mail() {
   });
 
 
-}
-
-
-function Mailbox(){
-  /*GET /emails/<str:mailbox>*/
-
-  request.open('GET', '/mailbox');
-
-  fetch('/emails/inbox')
-  .then(response => response.json())
-  .then(emails => {
-      // Print emails
-      console.log(emails);
-
-      // ... do something else with emails ...
-  });
-
-
-}
-
-
-function View_Email(){
-
-
-}
-
-
-
-function Archive_and_Unarchive(){
-
-
-
-}
-
-
-
-
-function Reply(){
-
-
-}
-
-
-window.onpopstate = function(event) {
-    console.log(event.state.section);
-    showSection(event.state.section);
 }
