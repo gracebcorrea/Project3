@@ -30,18 +30,20 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
+  window.onpopstate = function(event) {
+                console.log(event.state.section);
+                Mailbox(event.state.section);
+            }
+
+
+
 }
 
 
 function Mailbox(mailbox){
-  
 
-
-
-
-
-
-
+  /*request.open('GET', '/emails/${mailbox}');*/
 
     fetch(`/emails/${mailbox}`)
     .then(response => response.json())
@@ -50,6 +52,7 @@ function Mailbox(mailbox){
       console.log(emails);
 
       // ... do something else with emails ...
+        document.querySelector('#emails-view').innerHTML = emails;
 });
 
 }
