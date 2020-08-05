@@ -29,12 +29,12 @@ function load_mailbox(mailbox) {
   document.querySelector('#compose-view').style.display = 'none';
 
   // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3><hr>`;
 
   window.onpopstate = function(event) {
-                console.log(event.state.section);
-                Mailbox(event.state.section);
-            }
+        console.log(event.state.mailbox);
+        showSection(event.state.mailbox);
+        }
 
 
 
@@ -43,9 +43,9 @@ function load_mailbox(mailbox) {
 
 function Mailbox(mailbox){
 
-  /*request.open('GET', '/emails/${mailbox}');*/
+  /*request.open('GET', '/emails/<mailbox>');*/
 
-    fetch(`/emails/${mailbox}`)
+    fetch(`GET /emails/<str:mailbox>`)
     .then(response => response.json())
     .then(emails => {
       // Print emails
