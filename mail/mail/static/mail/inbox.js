@@ -38,12 +38,12 @@ window.onpopstate = function(event) {
     showSection(event.state.section);
 }
 
-function Send_Mail(recipients, subject, body) {
+function Send_Mail() {
 
   fetch('/emails', {
       method: 'POST',
       body: JSON.stringify({
-          recipients:  document.getElementByid("compose-recipients").value,
+          recipients: document.getElementByid("compose-recipients").value,
           subject:  document.getElementByid("compose-subject").value,
           body: document.getElementByid("compose-body").value,
       })
