@@ -40,6 +40,9 @@ function Send_Mail() {
   const subject = document.querySelector("#compose-subject").value;
   const body = document.querySelector("#compose-body").value;
 
+  /* POST /emails  */
+  request.open('POST', '/compose');
+
   fetch('/emails', {
       method: 'POST',
       body: JSON.stringify({
@@ -59,6 +62,9 @@ function Send_Mail() {
 
 
 function Mailbox(){
+  /*GET /emails/<str:mailbox>*/
+
+  request.open('GET', '/mailbox');
 
   fetch('/emails/inbox')
   .then(response => response.json())
