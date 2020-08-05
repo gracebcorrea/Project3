@@ -33,19 +33,19 @@ function load_mailbox(mailbox) {
 }
 
 
-window.onpopstate = function(event) {
-    console.log(event.state.section);
-    showSection(event.state.section);
-}
+
 
 function Send_Mail() {
+  const recipients = document.querySelector("#compose-recipients").value;
+  const subject = document.querySelector("#compose-subject").value;
+  const body = document.querySelector("#compose-body").value;
 
   fetch('/emails', {
       method: 'POST',
       body: JSON.stringify({
-          recipients: document.getElementByid("compose-recipients").value,
-          subject:  document.getElementByid("compose-subject").value,
-          body: document.getElementByid("compose-body").value,
+          recipients: recipients,
+          subject: subject,
+          body:body,
       })
   })
   .then(response => response.json())
@@ -92,4 +92,10 @@ function Archive_and_Unarchive(){
 function Reply(){
 
 
+}
+
+
+window.onpopstate = function(event) {
+    console.log(event.state.section);
+    showSection(event.state.section);
 }
