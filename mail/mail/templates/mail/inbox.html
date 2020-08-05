@@ -13,7 +13,7 @@
 
     <div id="emails-view">
 
-
+          <div id="result"></div>
 
 
 
@@ -21,7 +21,7 @@
 
     <div id="compose-view">
         <h3>New Email</h3>
-        <form id="compose-form" action ="{% url 'compose' %}" method="post">
+        <form id="compose-form" >
             <div class="form-group">
                 From: <input disabled class="form-control" id="compose-sender" value="{{ request.user.email }}">
             </div>
@@ -29,10 +29,10 @@
                 To: <input id="compose-recipients" class="form-control">
             </div>
             <div class="form-group">
-                <input class="form-control" id="compose-subject" placeholder="Subject">
+                Subject:<input class="form-control" id="compose-subject" placeholder="Subject">
             </div>
-            <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-            <input type="submit" class="btn btn-primary"/>
+                Write:<textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
+            <input  type="submit" class="btn btn-primary"/>
         </form>
     </div>
 
