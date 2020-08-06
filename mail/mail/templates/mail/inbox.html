@@ -12,14 +12,41 @@
     <hr>
 
     <div id="emails-view">
-      
-      From                        Subject                                  Date
+
+    </div>
+
+    <div id="Mailbox">
+      <div class="form-group">
+      	<form  style="border:#400080">
+        {% if email and emails|length > 0 %}
+      		<div class="form-group">
+      			<table class="table">
+      				<thead>
+      					<tr>
+      						<th scope="col">From: </th>
+            			<th scope="col">Subject:</th>
+      						<th scope="col">Date:  </th>
+      					</tr>
+      				</thead>
+
+      				{% for email in emails %}
+      					<tr>
+      						<td><a href="#">{{ email.title }}</a></td>
+      						<td>{{ email.author }}</td>
+      						<td>{{ email.year }}</td>
+      					  </tr>
+      				{% endfor %}
+
+      			</table>
+            {% endif %}
+      		</div>
+
+
+
 
 
 
     </div>
-
-
 
 
 
