@@ -48,14 +48,7 @@ function Mailbox(mailbox){
 
     /*request.open('GET', 'mailbox');*/
 
-    const readfetch = fetch('/emails', {
-        method: 'GET',
-        body: JSON.stringify({
-            
-            recipients: recipients,
-            subject: subject,
-            body:body,
-        })
+    const readfetch = fetch('mailbox', {method: 'GET' })
     })
     .then(response => response.json())
     .then(emails => {
