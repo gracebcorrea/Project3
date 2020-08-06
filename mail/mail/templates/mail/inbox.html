@@ -24,6 +24,7 @@
       				<thead>
       					<tr>
       						<th scope="col">From: </th>
+                  <th scope="col">To: </th>
             			<th scope="col">Subject:</th>
       						<th scope="col">Date:  </th>
       					</tr>
@@ -31,9 +32,10 @@
 
       				{% for email in emails %}
       					<tr>
-      						<td><a href="#">{{ email.title }}</a></td>
-      						<td>{{ email.author }}</td>
-      						<td>{{ email.year }}</td>
+      						<td><a href="#">{{ email.sender }}</a></td>
+                  <td><a href="#">{{ email.recipients }}</a></td>
+      						<td>{{ email.subject }}</td>
+      						<td>{{ email.timestamp }}</td>
       					  </tr>
       				{% endfor %}
 
