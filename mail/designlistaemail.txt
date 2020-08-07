@@ -1,0 +1,25 @@
+<form  style="border:#400080">
+            {% csrf_token %}
+            {% if email and emails|length > 0 %}
+                  <div class="form-group">
+                      <table class="table">
+                          <thead>
+                              <tr>
+                              <th scope="col">From: </th>
+                              <th scope="col">To: </th>
+                              <th scope="col">Subject:</th>
+                              <th scope="col">Date:  </th>
+                              </tr>
+                          </thead>
+                          {% for email in emails %}
+                                <tr>
+                                <td><a href="#">{{ email.sender }}</a></td>
+                                <td><a href="#">{{ email.recipients }}</a></td>
+                                <td>{{ email.subject }}</td>
+                                <td>{{ email.timestamp }}</td>
+                                </tr>
+                          {% endfor %}
+                     </table>
+                  </div>
+              {% endif %}
+        </form>
