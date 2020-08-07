@@ -28,16 +28,30 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
 
+  window.onpopstate = function(event) {
+      console.log(`${mailbox}`);
+      Mailbox(mailbox);
+  };
+
+
+
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3><hr>`;
 
-  window.onpopstate = function(event) {
-
-
-
-
-  }
 }
+
+
+function Mailbox(mailbox){
+
+
+
+}
+
+
+
+
+
+
 
 function Send_Mail() {
   const recipients = document.querySelector("#compose-recipients").value;
