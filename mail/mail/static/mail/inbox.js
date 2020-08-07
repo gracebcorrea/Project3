@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Use buttons to toggle between views
   document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox');Mailbox('inbox')});
   document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent');Mailbox('sent')});
-  document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive');Mailbox('archive')} );
+  document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive');Mailbox('archive')});
   document.querySelector('#compose').addEventListener('click', compose_email);
 
   // By default, load the inbox
@@ -14,7 +14,7 @@ function compose_email() {
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
-  document.querySelector('#emails-list').style.display = 'none';
+  document.querySelector('#emailslist').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
 
   // Clear out composition fields
@@ -27,7 +27,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
-  document.querySelector('#emails-list').style.display = 'block';
+  document.querySelector('#emailslist').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
 
   // Show the mailbox name
@@ -46,17 +46,21 @@ function createNode(element) {
 
 
 function Mailbox(mailbox){
-
-  fetch(`/emails/${mailbox}`)
+  fetch( `/emails/${mailbox}`)
   .then(response => response.json())
   .then(emails => {
-    let emailslist = emails.results;
-    
-    // Print emails
+    for (let email of emails) {
 
 
-    // ... do something else with emails ...
-});
+    }
+
+
+  });
+
+
+
+
+  alert(`${email}`);
 
 }
 
