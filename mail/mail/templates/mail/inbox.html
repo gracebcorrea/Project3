@@ -14,6 +14,7 @@
     <div id="emails-view">
         <div class="form-group">
               <form  style="border:#400080">
+                  {% csrf_token %}
                   {% if email and emails|length > 0 %}
                       <div class="form-group">
                           <table class="table">
@@ -42,6 +43,7 @@
     <div id="compose-view">
         <h3>New Email</h3>
         <form id="compose-form">
+            {% csrf_token %}
             <div class="form-group">
                 From: <input disabled class="form-control" id="compose-sender" value="{{ request.user.email }}">
             </div>
