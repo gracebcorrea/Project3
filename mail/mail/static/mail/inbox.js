@@ -39,17 +39,17 @@ function load_mailbox(mailbox) {
 
 
 function Mailbox(mailbox){
-  fetch("/emails/<str:mailbox>")
+  fetch("/emails/<str:mailbox>", {})
   .then(response => response.json())
   .then(emails => {
-    // Print emails
-    console.log(emails);
+      // Print emails
+    document.querySelector('#emails-list').innerHTML = ` ${emails}  ` ; })
 
     // ... do something else with emails ...
-    document.querySelector('#emails-list').innerHTML = emails;
+  .catch(error => console.log(error));
 
 
-});
+
 
 
 
