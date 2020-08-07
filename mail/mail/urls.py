@@ -1,6 +1,8 @@
-from django.urls import path
+from django.urls import include, path
 
 from . import views
+
+from .views import index, login_view, logout_view, register, compose, email, mailbox
 
 urlpatterns = [
     path("", views.index, name="index"),
