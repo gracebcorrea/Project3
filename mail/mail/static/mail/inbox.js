@@ -14,7 +14,7 @@ function compose_email() {
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
-  document.querySelector('#emails-list').style.display = 'none';
+  document.querySelector('#emailslist').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
 
   // Clear out composition fields
@@ -27,7 +27,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
-  document.querySelector('#emails-list').style.display = 'block';
+  document.querySelector('#emailslist').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
 
 
@@ -37,21 +37,35 @@ function load_mailbox(mailbox) {
 
 }
 
+function createNode(element) {
+     return document.createElement(element);
+ }
+
+ function append(parent, el) {
+   return parent.appendChild(el);
+ }
+
+
 
 function Mailbox(mailbox){
-  fetch("/emails/<str:mailbox>", {})
+  const ul = document.getElementById('emailslist');
+
+
+  fetch("/emails/<mailbox>", {})
   .then(response => response.json())
-  .then(emails => {
-      // Print emails
-    document.querySelector('#emails-list').innerHTML = ` ${emails}  ` ; })
-
-    // ... do something else with emails ...
-  .catch(error => console.log(error));
-
-
-
-
-
+  .then(function(emails) => {
+      let emailslist = emails.results;
+      return emails.map(function(emailslist) {
+        let li = createNode('li'),
+            span = createNode('span');
+            span.innerHTML = `${emailslist.id} ${emailslist.sender} ${emailslist.recipients"} ${emailslist.subject} ${emailslist.timestamp} `;
+            append(li, span);
+            append(ul, li);
+        })
+      })
+      .catch(function(error) {
+        console.log(JSON.stringify(error));
+      });
 
 }
 
