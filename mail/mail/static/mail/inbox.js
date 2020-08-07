@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   // Use buttons to toggle between views
-  document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
-  document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
-  document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
+  document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox'); Mailbox('inbox')});
+  document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent'); Mailbox('sent')});
+  document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive');Mailbox('archive')});
   document.querySelector('#compose').addEventListener('click', compose_email);
 
     // By default, load the inbox
@@ -28,11 +28,6 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
 
-  window.onpopstate = function(event) {
-      console.log(`${mailbox}`);
-      Mailbox(mailbox);
-  };
-
 
 
   // Show the mailbox name
@@ -42,6 +37,17 @@ function load_mailbox(mailbox) {
 
 
 function Mailbox(mailbox){
+  fetch("/emails/<str:mailbox>")
+  .then(response => response.json())
+  .then(emails => {
+    // Print emails
+    console.log(emails);
+
+    // ... do something else with emails ...
+    document.querySelector('#emails-list').innerHTML = emails;
+
+
+});
 
 
 
