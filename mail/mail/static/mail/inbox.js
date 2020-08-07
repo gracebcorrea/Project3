@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   // Use buttons to toggle between views
-  document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox'); Mailbox('inbox')});
-  document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent');Mailbox('sent')});
+  document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox')});
+  document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent')});
   document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive');Mailbox('archive')} );
   document.querySelector('#compose').addEventListener('click', compose_email);
 
@@ -30,6 +30,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3><hr>`;
+
 }
 
 
