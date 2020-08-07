@@ -73,7 +73,7 @@ fetch( `/emails/${mailbox}`)
       return emailslist.map(function(e) {
         let li = createNode('li'),
             span = createNode('span');
-            span.innerHTML = `${e.id} ${e.sender} ${e.recipients"} ${e.subject} ${e.timestamp} `;
+            span.innerHTML = `${e.id} ${e.sender} ${e.recipients} ${e.subject} ${e.timestamp} `;
             append(li, span);
             append(ul, li);
         })
