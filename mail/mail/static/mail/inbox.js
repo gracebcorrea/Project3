@@ -51,14 +51,14 @@ function Mailbox(mailbox){
   const ul = document.getElementById('emailslist');
 
 
-  fetch("/emails/<mailbox>", {})
+  fetch("/emails/<mailbox>")
   .then(response => response.json())
   .then(function(emails) => {
       let emailslist = emails.results;
-      return emails.map(function(emailslist) {
+      return emailslist.map(function(e) {
         let li = createNode('li'),
             span = createNode('span');
-            span.innerHTML = `${emailslist.id} ${emailslist.sender} ${emailslist.recipients"} ${emailslist.subject} ${emailslist.timestamp} `;
+            span.innerHTML = `${e.id} ${e.sender} ${e.recipients"} ${e.subject} ${e.timestamp} `;
             append(li, span);
             append(ul, li);
         })
@@ -81,7 +81,6 @@ function Send_Mail() {
   const body = document.querySelector("#compose-body").value;
 
   /* POST /emails  */
-  request.open('POST', '/compose');
 
   fetch('/emails', {
       method: 'POST',
