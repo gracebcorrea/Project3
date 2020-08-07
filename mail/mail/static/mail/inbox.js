@@ -49,18 +49,17 @@ function Mailbox(mailbox){
   fetch( `/emails/${mailbox}`)
   .then(response => response.json())
   .then(emails => {
-    for (let email of emails) {
+    for (let e of emails){
+      document.querySelector('#emailslist').innerHTML= (`${e.id} ${e.sender} ${e.recipients} ${e.subject} ${e.timestamp}` );
+
 
 
     }
 
 
+
   });
 
-
-
-
-  alert(`${email}`);
 
 }
 
