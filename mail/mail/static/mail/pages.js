@@ -5,7 +5,7 @@ window.onpopstate = function(event) {
 
         function showSection(section) {
 
-            fetch(`/sections/${section}`)
+            fetch(`${section}`)
             .then(response => response.text())
             .then(text => {
                 console.log(text);
@@ -18,7 +18,7 @@ window.onpopstate = function(event) {
             document.querySelectorAll('button').forEach(button => {
                 button.onclick = function() {
                     const section = this.dataset.section;
-                    history.pushState({section: section}, "", `section${section}`);
+                    history.pushState({section: section}, "", `${section}`);
                     showSection(section);
                 };
             });
