@@ -88,3 +88,31 @@ EXEMPLO
   .catch(function(error) {
     console.log(JSON.stringify(error));
   });   
+
+
+
+`${e.id} ${e.sender} ${e.recipients} ${e.subject} ${e.timestamp} `;
+
+
+
+const div = document.getElementById('emailslist');
+  const url = `/emails/${mailbox}`;
+  fetch(url)
+  .then((resp) => resp.json())
+  .then(function(emails) {
+    let emailslist = emails.results;
+    return emailslist.map(function(e) {
+      let ul = createNode('ul'),
+          li = createNode('li'),
+          span = createNode('span');
+      
+      span.innerHTML = `${e.id} ${e.sender} ${e.recipients} ${e.subject} ${e.timestamp} `;
+      append(div, ul);
+      append(li, span);
+      append(ul, li);
+    })
+  })
+  .catch(function(error) {
+    console.log(JSON.stringify(error));
+  });   
+
