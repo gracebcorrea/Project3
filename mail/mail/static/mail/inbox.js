@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Use buttons to toggle between views
-    document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox'); Mailbox('inbox')} );
-    document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent'); Mailbox('sent')} );
-    document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive'); Mailbox('archive')} );
+    document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox') );
+    document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent') );
+    document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive') );
     document.querySelector('#compose').addEventListener('click', compose_email);
 
     // By default, load the inbox
@@ -23,7 +23,7 @@ function compose_email() {
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
 
-  document.querySelector('#compose-submit').addEventListener('click', SendMail());
+  document.querySelector('#compose-view').addEventListener('DOMContentLoaded', SendMail());
 
 
 }
@@ -39,21 +39,24 @@ function load_mailbox(mailbox) {
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3><hr>`;
 
+  document.addEventListener('DOMContentLoaded', Mailbox(`${mailbox}`) );
 }
 
 
 function Mailbox(mailbox){
 
-  const div = document.getElementById('emailslist');
+
+  const mydiv = document.querySelector('#emailslist');
+  mydiv.innerHTML = "";
   const url = `/emails/${mailbox}`;
     fetch(url)
     .then((response) => response.json())
     .then(emails => {
-
+      console.log(emails.status);
       for (let e of emails) {
     // Print emails
 
-           div.innerHTML = `${e.id} ${e.sender} ${e.recipients} ${e.subject} ${e.timestamp} <br>`
+           mydiv.innerHTML = ` <br> ${e.id} ${e.sender} ${e.recipients} ${e.subject} ${e.timestamp} <br>`
 
     // ... do something else with emails ...
   }
@@ -62,32 +65,36 @@ function Mailbox(mailbox){
 
 
 function SendMail() {
-  const recipients = document.querySelector('#compose-recipients').value;
-  const subject = document.querySelector('#compose-subject').value;
-  const body = document.querySelector('#compose-body').value;
-
+  const maildata = document.querySelector('#compose-form');
+  maildata.addEventListener('submit', () => {
+    recipients = document.querySelector('#compose-recipients').value;
+    subject = document.querySelector('#compose-subject').value;
+    body = document.querySelector('#compose-body').value;
 
     fetch('/emails', {
         method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+          },
         body: JSON.stringify({
           recipients: recipients,
           subject: subject,
           body: body
-        })
+        }),
       })
         .then(response => response.json())
-        .then(res => {
-          if (res["error"]) {
-            alert( res["Error trying to send e-mail"]);
-          }
-          else {
-            load_mailbox('sent')
-          }
-        });
+        .then(result => {
+            // Print result
+            console.log(result);
+            load_mailbox('sent');
+          })
+        .catch(function(error) {
+            console.log('Looks like there was a problem: \n', error);
+});
 
-
-
-
+  }
+ );
 }
 
 
@@ -113,3 +120,4 @@ function Reply(){
 
 
 }
+/* no chrome usar : */
