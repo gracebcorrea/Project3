@@ -69,21 +69,27 @@ function SendMail() {
 
 
   submitsend = () => {
-    fetch('/emails', {
-      method: 'POST',
+
+      fetch('/emails', {
+        method: 'POST',
         body: JSON.stringify({
-            recipients: recipients,
-            subject: subject,
-            body:  body
-            })
+          recipients: recipients,
+          subject: subject,
+          body: body
+        })
       })
-      .then(response => response.json())
-      .then(result => {
-        load_mailbox('sent')
-      })
+        .then(response => response.json())
+        .then(res => {
+          if (res["error"]) {
+            alert( result["error"]);
+          }
+          else {
+            load_mailbox('sent')
+          }
+        });
 
-
-
+      return false;
+    };
 
 
 }
