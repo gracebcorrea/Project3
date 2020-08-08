@@ -34,7 +34,7 @@
              Subject:<input class="form-control" id="compose-subject" placeholder="Subject">
            </div>
              Message:<textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-             <input id="compose-submit" type="submit" value="Send" class="btn btn-primary"/>
+             <input id="submit" type="submit" value="Send" class="btn btn-primary"/>
         </form>
     </div>
 
@@ -42,5 +42,5 @@
 {% endblock %}
 
 {% block script %}
-    <script  type="application/javascript" src="{% static 'mail/inbox.js' enctype="multipart/form-data" %}"></script>
+    <script  type="application/javascript" src="{% static 'mail/inbox.js'  %}"></script>
 {% endblock %}
