@@ -65,12 +65,9 @@ function SendMail() {
   const recipients = document.querySelector('#compose-recipients').value;
   const subject = document.querySelector('#compose-subject').value;
   const body = document.querySelector('#compose-body').value;
-  const submitsend = document.querySelector('#compose-submit').onsubmit;
 
 
-  submitsend = () => {
-
-      fetch('/emails', {
+    fetch('/emails', {
         method: 'POST',
         body: JSON.stringify({
           recipients: recipients,
@@ -81,15 +78,14 @@ function SendMail() {
         .then(response => response.json())
         .then(res => {
           if (res["error"]) {
-            alert( result["error"]);
+            alert( res["Error trying to send e-mail"]);
           }
           else {
             load_mailbox('sent')
           }
         });
 
-      return false;
-    };
+
 
 
 }
