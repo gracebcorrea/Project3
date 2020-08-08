@@ -15,6 +15,7 @@ function compose_email() {
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#emailslist').style.display = 'none';
+  document.querySelector('#emaildetail').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
 
   // Clear out composition fields
@@ -28,6 +29,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#emailslist').style.display = 'block';
+  document.querySelector('#emailslist').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
 
   // Show the mailbox name
@@ -46,21 +48,19 @@ function createNode(element) {
 
 
 function Mailbox(mailbox){
-  fetch( `/emails/${mailbox}`)
-  .then(response => response.json())
-  .then(emails => {
-    for (let e of emails){
-      document.querySelector('#emailslist').innerHTML= (`${e.id} ${e.sender} ${e.recipients} ${e.subject} ${e.timestamp}` );
 
+  const div = document.getElementById('emailslist');
+  const url = `/emails/${mailbox}`;
+    fetch(url)
+    .then((response) => response.json())
+    .then(emails => {
+      for (let e of emails) {
+    // Print emails
+           alert(`${e.id}`);
 
-
-    }
-
-
-
-  });
-
-
+    // ... do something else with emails ...
+  }
+});
 }
 
 
