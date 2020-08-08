@@ -15,6 +15,8 @@
     </div>
     <div id="emailslist">
     </div>
+    <div id="emaildetail">
+    </div>
 
 
 
@@ -40,5 +42,5 @@
 {% endblock %}
 
 {% block script %}
-    <script  type="application/javascript" src="{% static 'mail/inbox.js'  %}"></script>
+    <script  type="application/javascript" src="{% static 'mail/inbox.js' enctype="multipart/form-data" %}"></script>
 {% endblock %}
