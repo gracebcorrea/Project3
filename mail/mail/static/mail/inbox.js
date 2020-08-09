@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Use buttons to toggle between views
-    document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox') );
-    document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent') );
-    document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive') );
-    document.querySelector('#compose').addEventListener('click', compose_email);
+    document.querySelector('#inbox').addEventListener('click', () => { load_mailbox('inbox'); Mailbox('inbox') });
+    document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent') ; Mailbox('sent') });
+    document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive') ; Mailbox('archive') });
 
     // By default, load the inbox
     load_mailbox('inbox');
@@ -39,27 +38,44 @@ function load_mailbox(mailbox) {
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3><hr>`;
 
-  document.addEventListener('DOMContentLoaded', Mailbox(`${mailbox}`) );
+
 }
 
 
 function Mailbox(mailbox){
 
   const mydiv = document.querySelector('#emailslist');
-  mydiv.innerHTML = "";
   const url = `/emails/${mailbox}`;
+
+
     fetch(url)
     .then((response) => response.json())
     .then(emails => {
-         for (let e of emails) {
-              let p = document.createElement('p');
+         /*for (let e of emails) {*/
+          emails.forEach((e) => {
+              console.log(e.id);
+              const ediv = document.createElement('div');
               if (mailbox == 'inbox') {
-                 mydiv.innerHTML = `<p> ${e.id} /  ${e.sender} /  ${e.subject} /  ${e.timestamp} </p>`;
+                  if (e.read == 0){
+                     ediv.innerHTML = `<br><strong> <a href= "">${e.id} </a> /  ${e.sender} /  ${e.subject} /  ${e.timestamp} </strong><br> `;
+                     }
+                  else {
+                  ediv.innerHTML = `<br><a href= "">${e.id} </a> /  ${e.sender} /  ${e.subject} /  ${e.timestamp} <br> `;
+                  }
+
               }
               else {
-                  mydiv.innerHTML = `<p> ${e.id} / ${e.recipients} / ${e.subject} / ${e.timestamp} </p>`;
+                  if (e.read == 0){
+                    ediv.innerHTML = `<br><strong> <a href= "">${e.id} </a> / ${e.recipients} / ${e.subject} / ${e.timestamp} </strong> <br> `;
+
+                  }
+                  else {
+                    ediv.innerHTML = `<br> <a href= "">${e.id} </a> / ${e.recipients} / ${e.subject} / ${e.timestamp} <br> `;
+                  }
               }
-          }
+              document.querySelector('#emailslist').append( ediv);
+
+          })
     })
     .catch(function(error) {
        console.log('Looks like there was a problem: \n', error);
