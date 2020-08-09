@@ -45,56 +45,62 @@ function load_mailbox(mailbox) {
 
 function Mailbox(mailbox){
 
-
   const mydiv = document.querySelector('#emailslist');
   mydiv.innerHTML = "";
   const url = `/emails/${mailbox}`;
     fetch(url)
     .then((response) => response.json())
     .then(emails => {
-      console.log(emails.status);
-      for (let e of emails) {
-    // Print emails
+         for (let e of emails) {
+              let p = document.createElement('p');
+              if (mailbox == 'inbox') {
+                 mydiv.innerHTML = `<p> ${e.id} /  ${e.sender} /  ${e.subject} /  ${e.timestamp} </p>`;
+              }
+              else {
+                  mydiv.innerHTML = `<p> ${e.id} / ${e.recipients} / ${e.subject} / ${e.timestamp} </p>`;
+              }
+          }
+    })
+    .catch(function(error) {
+       console.log('Looks like there was a problem: \n', error);
+     });
 
-           mydiv.innerHTML = ` <br> ${e.id} ${e.sender} ${e.recipients} ${e.subject} ${e.timestamp} <br>`
 
-    // ... do something else with emails ...
-  }
-});
 }
-
 
 function SendMail() {
   const maildata = document.querySelector('#compose-form');
-  maildata.addEventListener('submit', () => {
-    recipients = document.querySelector('#compose-recipients').value;
-    subject = document.querySelector('#compose-subject').value;
-    body = document.querySelector('#compose-body').value;
+  maildata.onsubmit = () => {
+     recipients = document.querySelector('#compose-recipients').value;
+     subject = document.querySelector('#compose-subject').value;
+     body = document.querySelector('#compose-body').value;
 
-    fetch('/emails', {
+     fetch('/emails', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-          },
+           },
         body: JSON.stringify({
           recipients: recipients,
           subject: subject,
           body: body
         }),
-      })
-        .then(response => response.json())
-        .then(result => {
-            // Print result
-            console.log(result);
-            load_mailbox('sent');
-          })
-        .catch(function(error) {
-            console.log('Looks like there was a problem: \n', error);
-});
+        })
+      .then(response => response.json())
+      .then(result => {
+          console.log(result);
+          if (result.status == 201) {
+               /*alert("Message Sent!");*/
+               load_mailbox("sent");
+          }
+          else {
+                alert("Something wrong trying to send message -> " `${result.status}`);
 
-  }
- );
+          }
+      });
+
+  };
 }
 
 
@@ -120,4 +126,6 @@ function Reply(){
 
 
 }
-/* no chrome usar : */
+/* no chrome usar :
+   --allow-file-access-from-files
+*/
