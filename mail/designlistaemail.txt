@@ -1,4 +1,4 @@
-<form  style="border:#400080">
+<form >
             {% csrf_token %}
             {% if email and emails|length > 0 %}
                   <div class="form-group">
@@ -25,7 +25,25 @@
         </form>
 
 
-
+''+
+'<form >'+
+				'{% csrf_token %}'+
+				'{% if email and emails|length > 0 %}'+
+								'<div class="form-group">'+
+												'<table class="table">'+
+																'{% for email in emails %}'+
+																						'<tr>'+
+																						'<td><a href="#">{{ email.sender }}</a></td>'+
+																						'<td><a href="#">{{ email.recipients }}</a></td>'+
+																						'<td>{{ email.subject }}</td>'+
+																						'td>{{ email.timestamp }}</td>'+
+																						'</tr>'+
+																'{% endfor %}'+
+													'</table>'+
+								'</div>'+
+				'{% endif %}'+
+'</form>'+
+''
 
 
 function Send_Mail() {
