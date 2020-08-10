@@ -188,19 +188,24 @@ function ViewEmail(id){
       console.log(email);
       // ... do something else with email ...
       mdetail.innerHTML= `<hr>
-             <span style="column-gap: 40px;"><strong>From:      </strong> </span>${email.sender}
-             <span style="column-gap: 40px;"><strong>To:        </strong></span>${email.recipients}<br>
-             <span style="column-gap: 40px;"><strong>Subject:   </strong></span>${email.subject}
-             <span style="column-gap: 40px;"><strong>Date: </strong></span>${email.timestamp}<br>
+             <table style= "border:none;">
+                <tbody>
+                  <tr>
+                    <td ><strong>From:  </strong>  ${email.sender}</td>
+                    <td ><strong>To:    </strong>  ${email.recipients} </td>
+                    </tr>
+                    <tr>
+                    <td ><strong>Subject: </strong> ${email.subject} </td>
+                    <td ><strong>Date:    </strong> ${email.timestamp}></td>
+                  </tr>
+                </tbody>
+             </table>
              <br>
              <div class="email-buttons row">
-
-               <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:220px;"   > Reply</button>
-               <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:260px;"   > ${email.read ? "Unread" : "Read"}</button>
-               <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:300px;"> ${email.archived ? "Unarchive" : "Archive"}</button>
-
+                <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:520px;" > Reply</button>
+                <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;" > ${email.read ? "Mark as Unread" : "Mark as Read"}</button>
+                <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:580px;"> ${email.archived ? "Unarchive" : "Archive"}</button>
              </div>
-              <br>
              <hr>
              ${email.body} `;
 
