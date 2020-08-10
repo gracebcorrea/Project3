@@ -66,11 +66,11 @@ function Mailbox(mailbox){
                        ediv.innerHTML = `<table class="table">
                                          <tbody>
                                          <tr>
-                                         <td style="width:350px"><strong> ${e.sender}</strong> </td>
+                                         <td style="width:300px"><strong> ${e.sender}</strong> </td>
                                          <td style="width:200px"><strong> ${e.subject} </strong></td>
                                          <td style="width:200px"><strong> ${e.timestamp} </strong></td>
                                          <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
-                                              <i class="fab fa-readme" style="font-size:38px;">${e.id} </button></td>
+                                              <i class="fab fa-readme" style="font-size:30px;"> </button></td>
                                          </tr>
                                          </tbody>
                                          </table>  `;
@@ -79,11 +79,11 @@ function Mailbox(mailbox){
                     ediv.innerHTML = `<table class="table">
                                       <tbody>
                                       <tr>
-                                      <td style="width:350px"><strong> ${e.recipients}</strong> </td>
+                                      <td style="width:300px"><strong> ${e.recipients}</strong> </td>
                                       <td style="width:200px"><strong> ${e.subject} </strong></td>
                                       <td style="width:200px"><strong> ${e.timestamp} </strong></td>
                                       <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
-                                          <i class="fab fa-readme" style="font-size:38px;">${e.id} </button></td>
+                                          <i class="fab fa-readme" style="font-size:30px;"> </button></td>
                                       </tr>
                                       </tbody>
                                       </table>  `;
@@ -94,11 +94,11 @@ function Mailbox(mailbox){
                         ediv.innerHTML = `<table class="table">
                                           <tbody>
                                           <tr>
-                                          <td style="width:350px">  ${e.sender}</td>
+                                          <td style="width:300px">  ${e.sender}</td>
                                           <td style="width:200px">  ${e.subject} </td>
                                           <td style="width:200px">  ${e.timestamp} </td>
                                           <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
-                                            <i class="fab fa-readme" style="font-size:38px;">${e.id} </button></td>
+                                            <i class="fab fa-readme" style="font-size:30px;"> </button></td>
                                           </tr>
                                           </tbody>
                                          </table>`;
@@ -107,11 +107,11 @@ function Mailbox(mailbox){
                       ediv.innerHTML = `<table class="table">
                                         <tbody>
                                         <tr>
-                                        <td style="width:350px">  ${e.recipients}</td>
+                                        <td style="width:300px">  ${e.recipients}</td>
                                         <td style="width:200px">  ${e.subject} </td>
                                         <td style="width:200px">  ${e.timestamp} </td>
                                         <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
-                                          <i class="fab fa-readme" style="font-size:38px;">${e.id} </button></td>
+                                          <i class="fab fa-readme" style="font-size:30px;"> </button></td>
                                         </tr>
                                         </tbody>
                                        </table>`;
@@ -167,7 +167,17 @@ function SendMail() {
 
 function ViewEmail(id){
 
-alert("Showing email");
+alert(id);
+const url = `/emails/${id}`;
+
+fetch(url )
+.then(response => response.json())
+.then(email => {
+    // Print email
+    console.log(email);
+
+    // ... do something else with email ...
+});
 
 }
 
