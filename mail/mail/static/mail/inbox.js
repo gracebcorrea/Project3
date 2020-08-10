@@ -1,9 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Use buttons to toggle between views
-    document.querySelector('#inbox').addEventListener('click', () => { load_mailbox('inbox'); Mailbox('inbox') });
+    /*document.querySelector('#inbox').addEventListener('click', () => { load_mailbox('inbox'); Mailbox('inbox') });
     document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent') ; Mailbox('sent') });
-    document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive') ; Mailbox('archive') });
+    document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive') ; Mailbox('archive') });*/
+    document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
+    document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
+    document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
+    document.querySelector('#compose').addEventListener('click', compose_email);
 
     // By default, load the inbox
     load_mailbox('inbox');
@@ -36,48 +40,113 @@ function load_mailbox(mailbox) {
   document.querySelector('#compose-view').style.display = 'none';
 
   // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3><hr>`;
-
+  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  Mailbox(mailbox);
 
 }
 
 
 function Mailbox(mailbox){
 
-  const mydiv = document.querySelector('#emailslist');
   const url = `/emails/${mailbox}`;
+  const mydiv = document.querySelector('#emailslist');
+  mydiv.innerHTML= "";
+  if (mailbox == 'inbox') {
+      mydiv.innerHTML= ` <table class="table">
+                          <thead>
+                              <tr>
+                              <th scope="col">From: </th>
+                              <th scope="col">Subject:</th>
+                              <th scope="col">Date:  </th>
+                              <th></th>
+                              <th scope="col">See details: </th>
+                              </tr>
+                          </thead>
+                          </table>`
+  }
+  else {
+     mydiv.innerHTML= ` <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">To: </th>
+                            <th scope="col">Subject:</th>
+                            <th scope="col">Date:  </th>
+                            <th></th>
+                            <th scope="col">See details:</th>
+
+                            </tr>
+                        </thead>
+                        </table> `
+  } ;
 
 
-    fetch(url)
-    .then((response) => response.json())
-    .then(emails => {
+
+  fetch(url)
+  .then((response) => response.json())
+  .then(emails => {
          /*for (let e of emails) {*/
           emails.forEach((e) => {
               console.log(e.id);
               const ediv = document.createElement('div');
               if (mailbox == 'inbox') {
                   if (e.read == 0){
-                     ediv.innerHTML = `<br><strong> <a href= "">${e.id} </a> /  ${e.sender} /  ${e.subject} /  ${e.timestamp} </strong><br> `;
+                     ediv.innerHTML = `<table class="table">
+                                       <tbody>
+                                       <tr>
+                                       <td><strong> ${e.sender} </strong></td>
+                                       <td><strong> ${e.subject}</strong> </td>
+                                       <td><strong> ${e.timestamp} </strong></td>
+                                       <td><strong> <a href= "">${e.id}</a></strong> </td>
+                                       </tr>
+                                       </tbody>
+                                       </table>  `;
                      }
                   else {
-                  ediv.innerHTML = `<br><a href= "">${e.id} </a> /  ${e.sender} /  ${e.subject} /  ${e.timestamp} <br> `;
+                  ediv.innerHTML = `<table class="table">
+                                    <tbody>
+                                    <tr>
+                                    <td>  ${e.sender}</td>
+                                    <td>  ${e.subject} </td>
+                                    <td>  ${e.timestamp} </td>
+                                    <td><a href= "">${e.id} </a></td>
+                                    </tr>
+                                    </tbody>
+                                    </table>`;
                   }
 
               }
               else {
                   if (e.read == 0){
-                    ediv.innerHTML = `<br><strong> <a href= "">${e.id} </a> / ${e.recipients} / ${e.subject} / ${e.timestamp} </strong> <br> `;
+                    ediv.innerHTML = `<table class="table">
+                                      <tbody>
+                                      <tr>
+                                      <td><strong> ${e.recipients} </strong></td>
+                                      <td><strong> ${e.subject} </strong></td>
+                                      <td><strong> ${e.timestamp} </strong></td>
+                                      <td><strong> <a href= "">${e.id} </a></strong></td>
+                                      </tr>
+                                      </tbody>
+                                      </table> `;
 
                   }
                   else {
-                    ediv.innerHTML = `<br> <a href= "">${e.id} </a> / ${e.recipients} / ${e.subject} / ${e.timestamp} <br> `;
+                    ediv.innerHTML = `<table class="table">
+                                      <tbody>
+                                      <tr>
+                                      <td>  ${e.sender}</td>
+                                      <td>  ${e.subject} </td>
+                                      <td>  ${e.timestamp} </td>
+                                      <td><a href= "">${e.id} </a></td>
+                                      </tr>
+                                      </tbody>
+                                      </table>`;
                   }
               }
               document.querySelector('#emailslist').append( ediv);
 
           })
-    })
-    .catch(function(error) {
+      })
+  .catch(function(error) {
        console.log('Looks like there was a problem: \n', error);
      });
 
