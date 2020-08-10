@@ -62,28 +62,60 @@ function Mailbox(mailbox){
               console.log(e.id);
               const ediv = document.createElement('div');
               if (e.read == 0){
-                  ediv.innerHTML = `<table class="table">
-                                       <tbody>
-                                       <tr>
-                                       <td><strong> ${e.sender} </strong></td>
-                                       <td> ${e.recipients} </td>
-                                       <td> ${e.subject} </td>
-                                       <td ><a href= "" id=${e.id} ><i class="glyphicon glyphicon-envelope" style="width:20px"></i>${e.id} </a></td>
-                                       </tr>
-                                       </tbody>
-                                   </table>  `;
-                     }
+                  if ( `${mailbox}` == "inbox") {
+                       ediv.innerHTML = `<table class="table">
+                                         <tbody>
+                                         <tr>
+                                         <td style="width:350px"><strong> ${e.sender}</strong> </td>
+                                         <td style="width:200px"><strong> ${e.subject} </strong></td>
+                                         <td style="width:200px"><strong> ${e.timestamp} </strong></td>
+                                         <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
+                                              <i class="fab fa-readme" style="font-size:38px;">${e.id} </button></td>
+                                         </tr>
+                                         </tbody>
+                                         </table>  `;
+                  }
+                  else {
+                    ediv.innerHTML = `<table class="table">
+                                      <tbody>
+                                      <tr>
+                                      <td style="width:350px"><strong> ${e.recipients}</strong> </td>
+                                      <td style="width:200px"><strong> ${e.subject} </strong></td>
+                                      <td style="width:200px"><strong> ${e.timestamp} </strong></td>
+                                      <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
+                                          <i class="fab fa-readme" style="font-size:38px;">${e.id} </button></td>
+                                      </tr>
+                                      </tbody>
+                                      </table>  `;
+                  }
+              }
               else {
-                  ediv.innerHTML = `<table class="table">
-                                       <tbody>
-                                       <tr>
-                                       <td>  ${e.sender}</td>
-                                       <td>  ${e.recipients}</td>
-                                       <td>  ${e.subject} </td>
-                                       <td ><a href= "" id=${e.id} ><i class="glyphicon glyphicon-envelope">${e.id} </i></a></td>
-                                       </tr>
-                                       </tbody>
-                                    </table>`;
+                    if ( `${mailbox}` == "inbox") {
+                        ediv.innerHTML = `<table class="table">
+                                          <tbody>
+                                          <tr>
+                                          <td style="width:350px">  ${e.sender}</td>
+                                          <td style="width:200px">  ${e.subject} </td>
+                                          <td style="width:200px">  ${e.timestamp} </td>
+                                          <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
+                                            <i class="fab fa-readme" style="font-size:38px;">${e.id} </button></td>
+                                          </tr>
+                                          </tbody>
+                                         </table>`;
+                    }
+                    else{
+                      ediv.innerHTML = `<table class="table">
+                                        <tbody>
+                                        <tr>
+                                        <td style="width:350px">  ${e.recipients}</td>
+                                        <td style="width:200px">  ${e.subject} </td>
+                                        <td style="width:200px">  ${e.timestamp} </td>
+                                        <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
+                                          <i class="fab fa-readme" style="font-size:38px;">${e.id} </button></td>
+                                        </tr>
+                                        </tbody>
+                                       </table>`;
+                    }
                   }
 
               document.querySelector('#emailslist').append( ediv);
@@ -133,9 +165,9 @@ function SendMail() {
 }
 
 
-function ViewEmail(){
+function ViewEmail(id){
 
-
+alert("Showing email");
 
 }
 
