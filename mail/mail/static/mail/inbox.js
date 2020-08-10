@@ -220,12 +220,10 @@ function ArchiveandUnarchive(id, flag){
   const url = `/emails/${id}`;
 
   fetch(url, {
-      method: 'PUT',
-      body: JSON.stringify({
+    method: "PUT",
+    body: JSON.stringify({
       archived: !flag,
-      })
-    })
-      .then(() => load_mailbox("inbox"));
+    }),
   });
 
 }
@@ -237,14 +235,10 @@ function Markread(id, flag){
     method: "PUT",
     body: JSON.stringify({
     read:  !flag,
-    }),
-  });
+  }),
+});
 }
 
-
-
-
-}
 
 
 
