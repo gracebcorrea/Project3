@@ -66,9 +66,9 @@ function Mailbox(mailbox){
                                        <tbody>
                                        <tr>
                                        <td><strong> ${e.sender} </strong></td>
-                                       <td><strong> ${e.recipients} </strong></td>
-                                       <td><strong> ${e.subject}</strong> </td>
-                                       <td><strong> <a href= "">${e.id}</a></strong> </td>
+                                       <td> ${e.recipients} </td>
+                                       <td> ${e.subject} </td>
+                                       <td ><a href= "" id=${e.id} ><i class="glyphicon glyphicon-envelope" style="width:20px"></i>${e.id} </a></td>
                                        </tr>
                                        </tbody>
                                    </table>  `;
@@ -80,7 +80,7 @@ function Mailbox(mailbox){
                                        <td>  ${e.sender}</td>
                                        <td>  ${e.recipients}</td>
                                        <td>  ${e.subject} </td>
-                                       <td><a href= "">${e.id} </a></td>
+                                       <td ><a href= "" id=${e.id} ><i class="glyphicon glyphicon-envelope">${e.id} </i></a></td>
                                        </tr>
                                        </tbody>
                                     </table>`;
