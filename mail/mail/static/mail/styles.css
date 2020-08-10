@@ -4,13 +4,6 @@ textarea {
 
 table {
   font-family: verdana, arial, sans-serif;
-  border-collapse: collapse;
+  border: 2px solid #99ccff;
   width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-  column-width: 200px;
 }
