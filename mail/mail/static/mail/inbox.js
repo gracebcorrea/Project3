@@ -51,33 +51,6 @@ function Mailbox(mailbox){
   const url = `/emails/${mailbox}`;
   const mydiv = document.querySelector('#emailslist');
   mydiv.innerHTML= "";
-  if (mailbox == 'inbox') {
-      mydiv.innerHTML= ` <table class="table">
-                          <thead>
-                              <tr>
-                              <th scope="col">From: </th>
-                              <th scope="col">Subject:</th>
-                              <th scope="col">Date:  </th>
-                              <th></th>
-                              <th scope="col">See details: </th>
-                              </tr>
-                          </thead>
-                          </table>`
-  }
-  else {
-     mydiv.innerHTML= ` <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">To: </th>
-                            <th scope="col">Subject:</th>
-                            <th scope="col">Date:  </th>
-                            <th></th>
-                            <th scope="col">See details:</th>
-
-                            </tr>
-                        </thead>
-                        </table> `
-  } ;
 
 
 
@@ -88,60 +61,31 @@ function Mailbox(mailbox){
           emails.forEach((e) => {
               console.log(e.id);
               const ediv = document.createElement('div');
-              if (mailbox == 'inbox') {
-                  if (e.read == 0){
-                     ediv.innerHTML = `<table class="table">
+              if (e.read == 0){
+                  ediv.innerHTML = `<table class="table">
                                        <tbody>
                                        <tr>
                                        <td><strong> ${e.sender} </strong></td>
+                                       <td><strong> ${e.recipients} </strong></td>
                                        <td><strong> ${e.subject}</strong> </td>
-                                       <td><strong> ${e.timestamp} </strong></td>
                                        <td><strong> <a href= "">${e.id}</a></strong> </td>
                                        </tr>
                                        </tbody>
-                                       </table>  `;
+                                   </table>  `;
                      }
-                  else {
+              else {
                   ediv.innerHTML = `<table class="table">
-                                    <tbody>
-                                    <tr>
-                                    <td>  ${e.sender}</td>
-                                    <td>  ${e.subject} </td>
-                                    <td>  ${e.timestamp} </td>
-                                    <td><a href= "">${e.id} </a></td>
-                                    </tr>
-                                    </tbody>
+                                       <tbody>
+                                       <tr>
+                                       <td>  ${e.sender}</td>
+                                       <td>  ${e.recipients}</td>
+                                       <td>  ${e.subject} </td>
+                                       <td><a href= "">${e.id} </a></td>
+                                       </tr>
+                                       </tbody>
                                     </table>`;
                   }
 
-              }
-              else {
-                  if (e.read == 0){
-                    ediv.innerHTML = `<table class="table">
-                                      <tbody>
-                                      <tr>
-                                      <td><strong> ${e.recipients} </strong></td>
-                                      <td><strong> ${e.subject} </strong></td>
-                                      <td><strong> ${e.timestamp} </strong></td>
-                                      <td><strong> <a href= "">${e.id} </a></strong></td>
-                                      </tr>
-                                      </tbody>
-                                      </table> `;
-
-                  }
-                  else {
-                    ediv.innerHTML = `<table class="table">
-                                      <tbody>
-                                      <tr>
-                                      <td>  ${e.sender}</td>
-                                      <td>  ${e.subject} </td>
-                                      <td>  ${e.timestamp} </td>
-                                      <td><a href= "">${e.id} </a></td>
-                                      </tr>
-                                      </tbody>
-                                      </table>`;
-                  }
-              }
               document.querySelector('#emailslist').append( ediv);
 
           })
