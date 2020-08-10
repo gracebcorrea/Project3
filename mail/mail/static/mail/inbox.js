@@ -188,10 +188,21 @@ function ViewEmail(id){
       console.log(email);
       // ... do something else with email ...
       mdetail.innerHTML= `<hr>
-             <span><strong>From:      </strong> </span>${email.sender}<br>
-             <span><strong>To:        </strong></span>${email.recipients}<br>
-             <span><strong>Subject:   </strong></span>${email.subject}<br>
-             <span><strong>Date: </strong></span>${email.timestamp}<br> `
+             <span style="column-gap: 40px;"><strong>From:      </strong> </span>${email.sender}
+             <span style="column-gap: 40px;"><strong>To:        </strong></span>${email.recipients}<br>
+             <span style="column-gap: 40px;"><strong>Subject:   </strong></span>${email.subject}
+             <span style="column-gap: 40px;"><strong>Date: </strong></span>${email.timestamp}<br>
+             <br>
+             <div class="email-buttons row">
+
+               <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:220px;"   > Reply</button>
+               <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:260px;"   > ${email.read ? "Unread" : "Read"}</button>
+               <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:300px;"> ${email.archived ? "Unarchive" : "Archive"}</button>
+
+             </div>
+              <br>
+             <hr>
+             ${email.body} `;
 
 
 
