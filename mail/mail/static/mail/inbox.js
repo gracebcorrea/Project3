@@ -70,7 +70,7 @@ function Mailbox(mailbox){
                                          <td style="width:200px"><strong> ${e.subject} </strong></td>
                                          <td style="width:200px"><strong> ${e.timestamp} </strong></td>
                                          <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
-                                              <i class="fab fa-readme" style="font-size:30px;"> </button></td>
+                                              <i class="fab fa-readme" style="font-size:24px;"> </button></td>
                                          </tr>
                                          </tbody>
                                          </table>  `;
@@ -83,7 +83,7 @@ function Mailbox(mailbox){
                                       <td style="width:200px"><strong> ${e.subject} </strong></td>
                                       <td style="width:200px"><strong> ${e.timestamp} </strong></td>
                                       <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
-                                          <i class="fab fa-readme" style="font-size:30px;"> </button></td>
+                                          <i class="fab fa-readme" style="font-size:24px;"> </button></td>
                                       </tr>
                                       </tbody>
                                       </table>  `;
@@ -98,7 +98,7 @@ function Mailbox(mailbox){
                                           <td style="width:200px">  ${e.subject} </td>
                                           <td style="width:200px">  ${e.timestamp} </td>
                                           <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
-                                            <i class="fab fa-readme" style="font-size:30px;"> </button></td>
+                                            <i class="fab fa-readme" style="font-size:24px;"> </button></td>
                                           </tr>
                                           </tbody>
                                          </table>`;
@@ -111,7 +111,7 @@ function Mailbox(mailbox){
                                         <td style="width:200px">  ${e.subject} </td>
                                         <td style="width:200px">  ${e.timestamp} </td>
                                         <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
-                                          <i class="fab fa-readme" style="font-size:30px;"> </button></td>
+                                          <i class="fab fa-readme" style="font-size:24px;"> </button></td>
                                         </tr>
                                         </tbody>
                                        </table>`;
