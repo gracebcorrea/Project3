@@ -157,10 +157,11 @@ function SendMail() {
           console.log(result);
           if (result.status == 201) {
                /*alert("Message Sent!");*/
-               load_mailbox("sent");
+               load_mailbox('sent');
           }
           else {
                 alert("Something wrong trying to send message -> " `${result.status}`);
+                compose_email();
 
           }
       });
@@ -196,7 +197,7 @@ function ViewEmail(id){
                     </tr>
                     <tr>
                     <td ><strong>Subject: </strong> ${email.subject} </td>
-                    <td ><strong>Date:    </strong> ${email.timestamp}></td>
+                    <td ><strong>Date:    </strong> ${email.timestamp}</td>
                   </tr>
                 </tbody>
              </table>
@@ -210,26 +211,42 @@ function ViewEmail(id){
              ${email.body} `;
 
 
-
-
-
-
-
-
-
-
-
 });
 
 }
 
 
-function ArchiveandUnarchive(){
+function ArchiveandUnarchive(id, flag){
+  const url = `/emails/${id}`;
+
+  fetch(url, {
+      method: 'PUT',
+      body: JSON.stringify({
+      archived: !flag,
+      })
+    })
+      .then(() => load_mailbox("inbox"));
+  });
+
+}
+
+function Markread(id, flag){
+  const url = `/emails/${id}`;
+
+  fetch(url, {
+    method: "PUT",
+    body: JSON.stringify({
+    read:  !flag,
+    }),
+  });
+}
 
 
 
 
 }
+
+
 
 function Reply(){
 
