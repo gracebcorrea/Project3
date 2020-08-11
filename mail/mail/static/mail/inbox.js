@@ -22,7 +22,7 @@ function compose_email() {
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
 
-  document.querySelector('#compose-view').addEventListener('DOMContentLoaded', SendMail());
+  SendMail();
 
 
 }
@@ -37,6 +37,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
   Mailbox(mailbox);
 
 }
@@ -65,7 +66,7 @@ function Mailbox(mailbox){
                                  <td style="width:300px"><strong> ${e.sender}</strong> </td>
                                  <td style="width:200px"><strong> ${e.subject} </strong></td>
                                  <td style="width:200px"><strong> ${e.timestamp} </strong></td>
-                                 <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
+                                 <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id},${mailbox})">
                                         <i class="fab fa-readme" style="font-size:24px;"></i> </button></td>
                                </tr>
                             </tbody>
@@ -79,7 +80,7 @@ function Mailbox(mailbox){
                                 <td style="width:300px"><strong> ${e.recipients}</strong> </td>
                                 <td style="width:200px"><strong> ${e.subject} </strong></td>
                                 <td style="width:200px"><strong> ${e.timestamp} </strong></td>
-                                <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
+                                <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id},${mailbox})">
                                       <i class="fab fa-readme" style="font-size:24px;"> </i></button></td>
                               </tr>
                           </tbody>
@@ -89,13 +90,13 @@ function Mailbox(mailbox){
           else {
               if (`${mailbox}` == "inbox") {
                  ediv.innerHTML = `
-                      <table class="table">
+                      <table class="table"  style="background-color:#f2f2f2  ;">
                             <tbody>
                               <tr>
                                 <td style="width:300px">  ${e.sender}</td>
                                 <td style="width:200px">  ${e.subject} </td>
                                 <td style="width:200px">  ${e.timestamp} </td>
-                                <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
+                                <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id},${mailbox})">
                                   <i class="fab fa-readme" style="font-size:24px;"> </i></button></td>
                               </tr>
                             </tbody>
@@ -103,13 +104,13 @@ function Mailbox(mailbox){
               }
               else{
                   ediv.innerHTML = `
-                      <table class="table">
+                      <table class="table"  style="background-color:#f2f2f2  ;">
                           <tbody>
                               <tr>
                                 <td style="width:300px">  ${e.recipients}</td>
                                 <td style="width:200px">  ${e.subject} </td>
                                 <td style="width:200px">  ${e.timestamp} </td>
-                                <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id})">
+                                <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id},${mailbox})">
                                       <i class="fab fa-readme" style="font-size:24px;"></i> </button></td>
                               </tr>
                           </tbody>
@@ -131,6 +132,7 @@ function SendMail() {
    maildata.onsubmit = () => {
         fetch('/emails', {
              method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify({
                recipients: document.querySelector('#compose-recipients').value,
                subject: document.querySelector('#compose-subject').value,
@@ -138,10 +140,11 @@ function SendMail() {
                })
         })
         .then(response => response.json())
-        .then(result => {
+        .then(function(result ){
                // Print result
                console.log(result);
-               load_mailbox('sent');
+                load_mailbox('sent');
+
         })
         .catch(function(error) {
               console.log('There has been a problem with your fetch operation: ' + error.message );
@@ -151,7 +154,7 @@ function SendMail() {
 }
 
 
-function ViewEmail(id){
+function ViewEmail(id, mailbox){
     document.querySelector('#emails-view').style.display = 'block';
     document.querySelector('#emailslist').style.display = 'none';
     document.querySelector('#emaildetail').style.display = 'block';
@@ -164,9 +167,10 @@ function ViewEmail(id){
     .then(response => response.json())
     .then(email => {
          // Print email
-         console.log(email);
+        console.log(email);
          // ... do something else with email ...
-          mdetail.innerHTML= `<hr>
+        if (mailbox != 'sent' ){
+             mdetail.innerHTML = `<hr>
              <table style= "border:none;">
                 <tbody>
                     <tr>
@@ -187,8 +191,24 @@ function ViewEmail(id){
              </div>
              <hr>
              ${email.body} `;
-
-
+        }
+        else {
+            mdetail.innerHTML = `<hr>
+               <table style= "border:none;">
+                  <tbody>
+                      <tr>
+                      <td ><strong>From:  </strong>  ${email.sender}</td>
+                      <td ><strong>To:    </strong>  ${email.recipients} </td>
+                      </tr>
+                      <tr>
+                      <td ><strong>Subject: </strong> ${email.subject} </td>
+                      <td ><strong>Date:    </strong> ${email.timestamp}</td>
+                      </tr>
+                  </tbody>
+               </table>
+               <br>
+               ${email.body} `;
+        }
     });
 
 }
@@ -222,10 +242,16 @@ function Markread(id, flag){
 
 
 
-function Reply(id, sender, email, email,body){
+function Reply(id, sender, recipients, subject , body){
 
     console.log(id,  sender, recipients, subject);
-    compose_email();
+    // Show compose view and hide other views
+    document.querySelector('#emails-view').style.display = 'none';
+    document.querySelector('#emailslist').style.display = 'none';
+    document.querySelector('#emaildetail').style.display = 'none';
+    document.querySelector('#compose-view').style.display = 'block';
+
+
     document.querySelector("#compose-recipients").value = sender;
     document.querySelector("#compose-subject").value = "RE:" +  subject;
 
