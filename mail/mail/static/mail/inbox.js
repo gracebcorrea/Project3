@@ -131,35 +131,30 @@ function Mailbox(mailbox){
 }
 
 function SendMail() {
-  const maildata = document.querySelector('#compose-form');
-  maildata.onsubmit = () => {
-     recipients = document.querySelector('#compose-recipients').value;
-     subject = document.querySelector('#compose-subject').value;
-     body = document.querySelector('#compose-body').value;
+   const maildata = document.querySelector('#compose-form');
+   maildata.onsubmit = () => {
+        recipients = document.querySelector('#compose-recipients').value;
+        subject = document.querySelector('#compose-subject').value;
+        body = document.querySelector('#compose-body').value;
 
-     fetch('/emails', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-           },
-        body: JSON.stringify({
-          recipients: recipients,
-          subject: subject,
-          body: body
-        }),
-      })
-      .then(response => response.json())
-      .then(result => {
-          console.log(result);
-          if (result.status == 201) {
-               /*alert("Message Sent!");*/
-               load_mailbox('sent');
-          }
-          else {
-                alert("Something wrong trying to send message -> "+ result.status);
-          }
-      });
+        fetch('/emails', {
+              method: 'POST',
+              headers: {  'Accept': 'application/json', 'Content-Type': 'application/json' },
+              mode: 'cors',
+              body: JSON.stringify({
+                    recipients: recipients,
+                    subject: subject,
+                    body: body,
+                    }),
+        })
+        .then(response => response.json())
+        .then(result => {
+             console.log(result);
+             load_mailbox('sent');
+        })
+        .catch(function(error) {
+              console.log('There has been a problem with your fetch operation: ' + error.message );
+        });
 
   };
 }
@@ -215,8 +210,9 @@ function ArchiveandUnarchive(id, flag){
     method: "PUT",
     body: JSON.stringify({
       archived: flag,
-    }),
+      }),
   });
+  load_mailbox('archive');
 
 }
 
@@ -226,9 +222,10 @@ function Markread(id, flag){
   fetch(url, {
     method: "PUT",
     body: JSON.stringify({
-    read:  flag,
-  }),
-});
+         read:  flag,
+         }),
+    });
+  load_mailbox('inbox');
 }
 
 
@@ -238,6 +235,8 @@ function Reply(id, sender, email, email){
 
     console.log(id,  sender, recipients, subject);
     compose_email;
+    document.querySelector("#compose-recipients").value = sender;
+    document.querySelector("#compose-subject").value = subject;
 
 
 
