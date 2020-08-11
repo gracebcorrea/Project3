@@ -169,7 +169,7 @@ function ViewEmail(id, mailbox){
          // Print email
         console.log(email);
          // ... do something else with email ...
-        if (mailbox != 'sent' ){
+        if (mailbox != 'sent'){
              mdetail.innerHTML = `<hr>
              <table style= "border:none;">
                 <tbody>
@@ -191,24 +191,29 @@ function ViewEmail(id, mailbox){
              </div>
              <hr>
              ${email.body} `;
-        }
-        else {
+          }
+          else{
             mdetail.innerHTML = `<hr>
-               <table style= "border:none;">
-                  <tbody>
-                      <tr>
-                      <td ><strong>From:  </strong>  ${email.sender}</td>
-                      <td ><strong>To:    </strong>  ${email.recipients} </td>
-                      </tr>
-                      <tr>
-                      <td ><strong>Subject: </strong> ${email.subject} </td>
-                      <td ><strong>Date:    </strong> ${email.timestamp}</td>
-                      </tr>
-                  </tbody>
-               </table>
-               <br>
+            <table style= "border:none;">
+               <tbody>
+                   <tr>
+                   <td ><strong>From:  </strong>  ${email.sender}</td>
+                   <td ><strong>To:    </strong>  ${email.recipients} </td>
+                   </tr>
+                   <tr>
+                   <td ><strong>Subject: </strong> ${email.subject} </td>
+                   <td ><strong>Date:    </strong> ${email.timestamp}</td>
+                   </tr>
+               </tbody>
+            </table>
+            <br>
                ${email.body} `;
-        }
+
+
+
+
+          }
+
     });
 
 }
