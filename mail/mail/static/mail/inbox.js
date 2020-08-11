@@ -133,24 +133,19 @@ function Mailbox(mailbox){
 function SendMail() {
    const maildata = document.querySelector('#compose-form');
    maildata.onsubmit = () => {
-        recipients = document.querySelector('#compose-recipients').value;
-        subject = document.querySelector('#compose-subject').value;
-        body = document.querySelector('#compose-body').value;
-
         fetch('/emails', {
-              method: 'POST',
-              headers: {  'Accept': 'application/json', 'Content-Type': 'application/json' },
-              mode: 'cors',
-              body: JSON.stringify({
-                    recipients: recipients,
-                    subject: subject,
-                    body: body,
-                    }),
+             method: 'POST',
+             body: JSON.stringify({
+               recipients: document.querySelector('#compose-recipients').value,
+               subject: document.querySelector('#compose-subject').value,
+               body: document.querySelector('#compose-body').value,
+               })
         })
         .then(response => response.json())
         .then(result => {
-             console.log(result);
-             load_mailbox('sent');
+               // Print result
+               console.log(result);
+               load_mailbox('sent');
         })
         .catch(function(error) {
               console.log('There has been a problem with your fetch operation: ' + error.message );
@@ -190,7 +185,7 @@ function ViewEmail(id){
              </table>
              <br>
              <div class="email-buttons row">
-                <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:520px;" onclick="Reply(${id},${email.sender}, ${email.recipients}, ${email.subject})"> Reply</button>
+                <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:520px;" onclick="Reply(${id},${email.sender}, ${email.recipients}, ${email.subject},${email.body})"> Reply</button>
                 <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;" onclick="Markread(${id}, ${email.read})" >           ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
                 <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:580px;" onclick="ArchiveandUnarchive(${id},${email.archived})"> ${email.archived ? "Unarchive" : "Archive"    }</button>
              </div>
@@ -231,13 +226,15 @@ function Markread(id, flag){
 
 
 
-function Reply(id, sender, email, email){
+function Reply(id, sender, email, email,body){
 
     console.log(id,  sender, recipients, subject);
-    compose_email;
+    compose_email();
     document.querySelector("#compose-recipients").value = sender;
-    document.querySelector("#compose-subject").value = subject;
+    document.querySelector("#compose-subject").value = "RE:" +  subject;
 
+    remembermsg = `${sender}   wrote:\n${body}\n on ${timestamp}`;
+    document.querySelector("#compose-body").value = remembermsg;
 
 
 
