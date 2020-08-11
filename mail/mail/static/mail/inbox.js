@@ -167,11 +167,10 @@ function ViewEmail(id, mailbox){
     document.querySelector('#emaildetail').style.display = 'block';
     document.querySelector('#compose-view').style.display = 'none';
     const mdetail = document.querySelector('#emaildetail');
-    mdetail.innerHTML= "";
+          mdetail.innerHTML= "";
+    const detailpart = document.createElement('div');
     const url = `/emails/${id}`;
-    console.log("VIEWMAIL:  " + id)
-    console.log("MAILBOX : ")
-    console.log(`${mailbox}`);
+    console.log(id , mailbox)
 
     fetch(url)
     .then(response => response.json())
@@ -182,8 +181,9 @@ function ViewEmail(id, mailbox){
         console.log(email);
 
          // ... do something else with email ...
-         mdetail.innerHTML = `<hr>
-             <table style= "border:none;">
+         if (mailbox != "sent"){
+             detailpart.innerHTML = `<hr>
+                <table style= "border:none;">
                 <tbody>
                     <tr>
                     <td ><strong>From:  </strong>  ${email.sender}</td>
@@ -195,21 +195,42 @@ function ViewEmail(id, mailbox){
                     </tr>
 
                 </tbody>
-             </table>
-             <hr>
-               ${email.body}
-             <hr>
+                </table>
+                <hr>
+                   ${email.body}
+                <hr>
+                <div class="email-buttons row">
+                      <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:530px;" > Reply</button>
+                      <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:555px;" > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
+                      <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:580px;" > ${email.archived ? "Unarchive" : "Archive"    }</button>
+                </div> `
+             }
+             else{
+               detailpart.innerHTML = `<hr>
+                  <table style= "border:none;">
+                  <tbody>
+                      <tr>
+                      <td ><strong>From:  </strong>  ${email.sender}</td>
+                      <td ><strong>To:    </strong>  ${email.recipients} </td>
+                      </tr>
+                      <tr>
+                      <td ><strong>Subject: </strong> ${email.subject} </td>
+                      <td ><strong>Date:    </strong> ${email.timestamp}</td>
+                      </tr>
 
-             <br>
-             <div class="email-buttons row">
-                <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:530px;" > Reply</button>
-                <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:555px;" > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
-                <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:580px;" > ${email.archived ? "Unarchive" : "Archive"    }</button>
-             </div> `;
+                  </tbody>
+                  </table>
+                  <hr>
+                     ${email.body}
+                  <hr>`
 
-          //  document.querySelector('#reply').addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
-          //  document.querySelector('#read').addEventListener('click',  Markread(id, email.read));
-          //  document.querySelector('#archive').addEventListener('click',  ArchiveandUnarchive(id, email.archived));
+
+             }
+             document.querySelector('#emaildetail').append( detailpart);
+
+            //document.querySelector('#reply').addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
+            //document.querySelector('#read').addEventListener('click',  Markread(id, email.read));
+            //document.querySelector('#archive').addEventListener('click',  ArchiveandUnarchive(id, email.archived));
 
 
     });
