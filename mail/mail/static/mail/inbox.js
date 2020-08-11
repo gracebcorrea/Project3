@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
     document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
     document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
-    document.querySelector('#compose').addEventListener('click', compose_email());
+    document.querySelector('#compose').addEventListener('click', compose_email);
 
     // By default, load the inbox
     load_mailbox('inbox');
@@ -157,9 +157,7 @@ function SendMail() {
                load_mailbox('sent');
           }
           else {
-                alert("Something wrong trying to send message -> "+ `${result.status}`);
-                compose_email();
-
+                alert("Something wrong trying to send message -> "+ result.status);
           }
       });
 
@@ -197,9 +195,9 @@ function ViewEmail(id){
              </table>
              <br>
              <div class="email-buttons row">
-                <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:520px;" onclick="Reply(${id}, ${email.recipients}, ${email.subject})"> Reply</button>
+                <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:520px;" onclick="Reply(${id},${email.sender}, ${email.recipients}, ${email.subject})"> Reply</button>
                 <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;" onclick="Markread(${id}, ${email.read})" >           ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
-                <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:580px;" onclick="ArchiveandUnarchive(${id},${email.archived})"> ${email.archived ? "Unarchive" : "Archive"}</button>
+                <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:580px;" onclick="ArchiveandUnarchive(${id},${email.archived})"> ${email.archived ? "Unarchive" : "Archive"    }</button>
              </div>
              <hr>
              ${email.body} `;
@@ -216,7 +214,7 @@ function ArchiveandUnarchive(id, flag){
   fetch(url, {
     method: "PUT",
     body: JSON.stringify({
-      archived: !flag,
+      archived: flag,
     }),
   });
 
@@ -228,7 +226,7 @@ function Markread(id, flag){
   fetch(url, {
     method: "PUT",
     body: JSON.stringify({
-    read:  !flag,
+    read:  flag,
   }),
 });
 }
@@ -236,9 +234,10 @@ function Markread(id, flag){
 
 
 
-function Reply(id, recipients, subject){
-    console.log(id, recipients, subject);
+function Reply(id, sender, email, email){
 
+    console.log(id,  sender, recipients, subject);
+    compose_email;
 
 
 
