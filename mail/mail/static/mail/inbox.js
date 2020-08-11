@@ -50,12 +50,13 @@ function Mailbox(mailbox){
   mydiv.innerHTML= "";
 
 
-
   fetch(url)
   .then((response) => response.json())
   .then(emails => {
       emails.forEach((e) => {
           console.log(e.id);
+          console.log( `${mailbox}`);
+
           const ediv = document.createElement('div');
           if (e.read == 0){
             if (`${mailbox}` == "inbox") {
@@ -66,11 +67,12 @@ function Mailbox(mailbox){
                                  <td style="width:300px"><strong> ${e.sender}</strong> </td>
                                  <td style="width:200px"><strong> ${e.subject} </strong></td>
                                  <td style="width:200px"><strong> ${e.timestamp} </strong></td>
-                                 <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id},${mailbox})">
+                                 <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');">
                                         <i class="fab fa-readme" style="font-size:24px;"></i> </button></td>
                                </tr>
                             </tbody>
                         </table>`;
+
             }
             else {
                 ediv.innerHTML = `
@@ -80,11 +82,12 @@ function Mailbox(mailbox){
                                 <td style="width:300px"><strong> ${e.recipients}</strong> </td>
                                 <td style="width:200px"><strong> ${e.subject} </strong></td>
                                 <td style="width:200px"><strong> ${e.timestamp} </strong></td>
-                                <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id},${mailbox})">
+                                <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id}, '${mailbox}');">
                                       <i class="fab fa-readme" style="font-size:24px;"> </i></button></td>
                               </tr>
                           </tbody>
                     </table>  `;
+
             }
           }
           else {
@@ -96,11 +99,12 @@ function Mailbox(mailbox){
                                 <td style="width:300px">  ${e.sender}</td>
                                 <td style="width:200px">  ${e.subject} </td>
                                 <td style="width:200px">  ${e.timestamp} </td>
-                                <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id},${mailbox})">
+                                <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id}, '${mailbox}');">
                                   <i class="fab fa-readme" style="font-size:24px;"> </i></button></td>
                               </tr>
                             </tbody>
                       </table>`;
+
               }
               else{
                   ediv.innerHTML = `
@@ -110,12 +114,13 @@ function Mailbox(mailbox){
                                 <td style="width:300px">  ${e.recipients}</td>
                                 <td style="width:200px">  ${e.subject} </td>
                                 <td style="width:200px">  ${e.timestamp} </td>
-                                <td style="width:50px"> <button class="btn" onclick="ViewEmail(${e.id},${mailbox})">
+                                <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id}, '${mailbox}');">
                                       <i class="fab fa-readme" style="font-size:24px;"></i> </button></td>
                               </tr>
                           </tbody>
                       </table>`;
               }
+
           }
 
           document.querySelector('#emailslist').append( ediv);
@@ -125,6 +130,8 @@ function Mailbox(mailbox){
   .catch(function(error) {
        console.log('Looks like there was a problem: \n', error);
   });
+
+
 }
 
 function SendMail() {
@@ -162,15 +169,20 @@ function ViewEmail(id, mailbox){
     const mdetail = document.querySelector('#emaildetail');
     mdetail.innerHTML= "";
     const url = `/emails/${id}`;
+    console.log("VIEWMAIL:  " + id)
+    console.log("MAILBOX : ")
+    console.log(`${mailbox}`);
 
     fetch(url)
     .then(response => response.json())
     .then(email => {
          // Print email
+
+        console.log("EMAIL CONTENT : ");
         console.log(email);
+
          // ... do something else with email ...
-        if (mailbox != 'sent'){
-             mdetail.innerHTML = `<hr>
+         mdetail.innerHTML = `<hr>
              <table style= "border:none;">
                 <tbody>
                     <tr>
@@ -181,38 +193,24 @@ function ViewEmail(id, mailbox){
                     <td ><strong>Subject: </strong> ${email.subject} </td>
                     <td ><strong>Date:    </strong> ${email.timestamp}</td>
                     </tr>
+
                 </tbody>
              </table>
+             <hr>
+               ${email.body}
+             <hr>
+
              <br>
              <div class="email-buttons row">
-                <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:520px;" onclick="Reply(${id},${email.sender}, ${email.recipients}, ${email.subject},${email.body})"> Reply</button>
-                <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;" onclick="Markread(${id}, ${email.read})" >           ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
-                <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:580px;" onclick="ArchiveandUnarchive(${id},${email.archived})"> ${email.archived ? "Unarchive" : "Archive"    }</button>
-             </div>
-             <hr>
-             ${email.body} `;
-          }
-          else{
-            mdetail.innerHTML = `<hr>
-            <table style= "border:none;">
-               <tbody>
-                   <tr>
-                   <td ><strong>From:  </strong>  ${email.sender}</td>
-                   <td ><strong>To:    </strong>  ${email.recipients} </td>
-                   </tr>
-                   <tr>
-                   <td ><strong>Subject: </strong> ${email.subject} </td>
-                   <td ><strong>Date:    </strong> ${email.timestamp}</td>
-                   </tr>
-               </tbody>
-            </table>
-            <br>
-               ${email.body} `;
+                <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:530px;" > Reply</button>
+                <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:555px;" > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
+                <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:580px;" > ${email.archived ? "Unarchive" : "Archive"    }</button>
+             </div> `;
 
+          //  document.querySelector('#reply').addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
+          //  document.querySelector('#read').addEventListener('click',  Markread(id, email.read));
+          //  document.querySelector('#archive').addEventListener('click',  ArchiveandUnarchive(id, email.archived));
 
-
-
-          }
 
     });
 
@@ -247,7 +245,7 @@ function Markread(id, flag){
 
 
 
-function Reply(id, sender, recipients, subject , body){
+function Reply(id, sender, recipients, subject , body, timestamp){
 
     console.log(id,  sender, recipients, subject);
     // Show compose view and hide other views
