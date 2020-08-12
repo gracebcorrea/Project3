@@ -108,7 +108,7 @@ function Mailbox(mailbox){
                               <tr>
                                 <td style="width:300px">  ${e.sender}</td>
                                 <td style="width:200px">  ${e.subject} </td>
-                                <td style="width:200px">  ${e.timestamp} </td>
+                                <td style="width:200px; align:right;">  ${e.timestamp} </td>
                                 <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id}, '${mailbox}');">
                                   <i class="fab fa-readme" style="font-size:24px;"> </i></button></td>
                               </tr>
@@ -123,7 +123,7 @@ function Mailbox(mailbox){
                               <tr>
                                 <td style="width:300px">  ${e.recipients}</td>
                                 <td style="width:200px">  ${e.subject} </td>
-                                <td style="width:200px">  ${e.timestamp} </td>
+                                <td style="width:200px; align:right;">  ${e.timestamp} </td>
                                 <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id}, '${mailbox}');">
                                       <i class="fab fa-readme" style="font-size:24px;"></i> </button></td>
                               </tr>
