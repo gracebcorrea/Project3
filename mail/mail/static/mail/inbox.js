@@ -201,8 +201,8 @@ function ViewEmail(id, mailbox){
                 <hr>
                 <div class="email-buttons row">
                       <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:530px;" > Reply</button>
-                      <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:555px;" > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
-                      <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:580px;" > ${email.archived ? "Unarchive" : "Archive"    }</button>
+                      <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;" onclick="Markread(${id}, ${email.read})" > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
+                      <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:570px;" onclick="ArchiveandUnarchive(${id}, ${email.archived});" > ${email.archived ? "Unarchive" : "Archive"    }</button>
                 </div> `
              }
              else{
@@ -222,30 +222,38 @@ function ViewEmail(id, mailbox){
                   </table>
                   <hr>
                      ${email.body}
-                  <hr>`
-
-
+                  <hr>
+                  <div class="email-buttons row">
+                      <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;" onclick="Markread(${id}, ${email.read})" > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
+                  </div> `
              }
              document.querySelector('#emaildetail').append( detailpart);
 
-            //document.querySelector('#reply').addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
-            //document.querySelector('#read').addEventListener('click',  Markread(id, email.read));
-            //document.querySelector('#archive').addEventListener('click',  ArchiveandUnarchive(id, email.archived));
+
+     });
+
+          //  document.querySelector("#reply").addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
+          //  document.querySelector("#read").addEventListener('click',  Markread(id, email.read));
+          //  document.querySelector('#archive').addEventListener('click', ArchiveandUnarchive(id, email.archived));
+
+        //  detailpart.addEventListener('click', function())
 
 
-    });
+
 
 }
 
 
 function ArchiveandUnarchive(id, flag){
   const url = `/emails/${id}`;
-
+  console.log("ArchiveandUnarchive");
+  console.log(id, flag);
   fetch(url, {
     method: "PUT",
     body: JSON.stringify({
-      archived: flag,
+      archived: !flag,
       }),
+
   });
   load_mailbox('archive');
 
@@ -253,14 +261,16 @@ function ArchiveandUnarchive(id, flag){
 
 function Markread(id, flag){
   const url = `/emails/${id}`;
+  console.log("Markread");
+  console.log(id, flag);
 
   fetch(url, {
     method: "PUT",
     body: JSON.stringify({
-         read:  flag,
+         read: !flag,
          }),
     });
-  load_mailbox('inbox');
+  load_mailbox('sent');
 }
 
 
