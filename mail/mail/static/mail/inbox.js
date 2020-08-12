@@ -23,7 +23,7 @@ function compose_email() {
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
 
-  document.querySelector('#sendmail').addEventListener('click', SendMail());
+  SendMail();
 
 
 
@@ -137,7 +137,7 @@ function Mailbox(mailbox){
 }
 
 function SendMail() {
-
+    document.querySelector('#sendmail').addEventListener('click', () => {
         fetch('/emails', {
              method: 'POST',
              headers: { 'Content-Type': 'application/json' },
@@ -148,7 +148,7 @@ function SendMail() {
                })
         })
         .then(response => response.json())
-        .then(function(result){
+        .then(result => {
                // Print result
                console.log(result);
                console.log("E-mail sent");
@@ -157,6 +157,8 @@ function SendMail() {
         .catch(function(error) {
               console.log('There has been a problem with your fetch operation: ' + error.message );
         });
+      }
+    )
 }
 
 
@@ -169,7 +171,8 @@ function ViewEmail(id, mailbox){
           mdetail.innerHTML= "";
     const detailpart = document.createElement('div');
     const url = `/emails/${id}`;
-    console.log(id , mailbox)
+    console.log(id , mailbox);
+
 
     fetch(url)
     .then(response => response.json())
@@ -178,6 +181,8 @@ function ViewEmail(id, mailbox){
 
         console.log("EMAIL CONTENT : ");
         console.log(email);
+
+
 
          // ... do something else with email ...
          if (mailbox != "sent"){
@@ -230,15 +235,9 @@ function ViewEmail(id, mailbox){
 
 
      });
-
-    document.querySelector("#reply").addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
-    document.querySelector("#read").addEventListener('click',  Markread(id, email.read));
-    document.querySelector('#archive').addEventListener('click', ArchiveandUnarchive(id, email.archived));
-
-    window.history.back();
-
-
-
+     document.querySelector("#reply").addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
+     document.querySelector("#read").addEventListener('click',  Markread(id, email.read));
+     document.querySelector('#archive').addEventListener('click', ArchiveandUnarchive(id, email.archived));
 }
 
 
@@ -253,8 +252,7 @@ function ArchiveandUnarchive(id, flag){
       }),
 
   });
-
-
+  window.history.back();
 
 }
 
@@ -269,8 +267,7 @@ function Markread(id, flag){
          read: !flag,
          }),
     });
-
-
+    window.history.back();
 }
 
 
@@ -292,7 +289,7 @@ function Reply(id, sender, recipients, subject, body, timestamp){
     remembermsg = `${sender}   wrote:\n${body}\n on ${timestamp}`;
     document.querySelector("#compose-body").value = remembermsg;
 
-    document.querySelector('#sendmail').addEventListener('click', SendMail());
+    SendMail();
 
 
 }
