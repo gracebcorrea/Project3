@@ -135,7 +135,7 @@ function Mailbox(mailbox){
 }
 
 function SendMail() {
-   const maildata = document.querySelector('#compose-form');
+   const maildata = document.querySelector('#sendmail');
    maildata.onsubmit = () => {
         fetch('/emails', {
              method: 'POST',
@@ -150,8 +150,8 @@ function SendMail() {
         .then(function(result ){
                // Print result
                console.log(result);
-                load_mailbox('sent');
-
+               console.log("E-mail sent");
+               load_mailbox('sent');
         })
         .catch(function(error) {
               console.log('There has been a problem with your fetch operation: ' + error.message );
@@ -201,8 +201,8 @@ function ViewEmail(id, mailbox){
                 <hr>
                 <div class="email-buttons row">
                       <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:530px;" > Reply</button>
-                      <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;" onclick="Markread(${id}, ${email.read})" > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
-                      <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:570px;" onclick="ArchiveandUnarchive(${id}, ${email.archived});" > ${email.archived ? "Unarchive" : "Archive"    }</button>
+                      <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;"  > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
+                      <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:570px;"  > ${email.archived ? "Unarchive" : "Archive"    }</button>
                 </div> `
              }
              else{
@@ -224,7 +224,7 @@ function ViewEmail(id, mailbox){
                      ${email.body}
                   <hr>
                   <div class="email-buttons row">
-                      <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;" onclick="Markread(${id}, ${email.read})" > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
+                      <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;" > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
                   </div> `
              }
              document.querySelector('#emaildetail').append( detailpart);
@@ -233,8 +233,8 @@ function ViewEmail(id, mailbox){
      });
 
           //  document.querySelector("#reply").addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
-          //  document.querySelector("#read").addEventListener('click',  Markread(id, email.read));
-          //  document.querySelector('#archive').addEventListener('click', ArchiveandUnarchive(id, email.archived));
+            document.querySelector("#read").addEventListener('click',  Markread(id, email.read));
+            document.querySelector('#archive').addEventListener('click', ArchiveandUnarchive(id, email.archived));
 
         //  detailpart.addEventListener('click', function())
 
@@ -255,7 +255,8 @@ function ArchiveandUnarchive(id, flag){
       }),
 
   });
-  load_mailbox('archive');
+
+
 
 }
 
@@ -270,7 +271,8 @@ function Markread(id, flag){
          read: !flag,
          }),
     });
-  load_mailbox('sent');
+
+
 }
 
 
@@ -292,12 +294,16 @@ function Reply(id, sender, recipients, subject , body, timestamp){
     remembermsg = `${sender}   wrote:\n${body}\n on ${timestamp}`;
     document.querySelector("#compose-body").value = remembermsg;
 
-
+    SendMail();
 
 
 }
 /* no chrome usar :
 
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --user-data-dir="D:/CS50" --disable-web-security
+
+no mozzilla
+
+"C:\Program Files\Mozilla Firefox\firefox.exe" --network.http.referer.XOriginPolicy==0
 
 */
