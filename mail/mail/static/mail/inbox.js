@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
     document.querySelector('#compose').addEventListener('click', compose_email);
 
+
     // By default, load the inbox
     load_mailbox('inbox');
 });
@@ -22,7 +23,8 @@ function compose_email() {
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
 
-  SendMail();
+  document.querySelector('#sendmail').addEventListener('click', SendMail());
+
 
 
 }
@@ -135,8 +137,7 @@ function Mailbox(mailbox){
 }
 
 function SendMail() {
-   const maildata = document.querySelector('#sendmail');
-   maildata.addEventListener('click', = () => {
+
         fetch('/emails', {
              method: 'POST',
              headers: { 'Content-Type': 'application/json' },
@@ -147,7 +148,7 @@ function SendMail() {
                })
         })
         .then(response => response.json())
-        .then(function(result ){
+        .then(function(result){
                // Print result
                console.log(result);
                console.log("E-mail sent");
@@ -156,8 +157,6 @@ function SendMail() {
         .catch(function(error) {
               console.log('There has been a problem with your fetch operation: ' + error.message );
         });
-
-  };
 }
 
 
@@ -235,6 +234,7 @@ function ViewEmail(id, mailbox){
     document.querySelector("#reply").addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
     document.querySelector("#read").addEventListener('click',  Markread(id, email.read));
     document.querySelector('#archive').addEventListener('click', ArchiveandUnarchive(id, email.archived));
+
     window.history.back();
 
 
@@ -276,8 +276,8 @@ function Markread(id, flag){
 
 
 
-function Reply(id, sender, recipients, subject , body, timestamp){
-
+function Reply(id, sender, recipients, subject, body, timestamp){
+    alert("Inside reply");
     console.log(id,  sender, recipients, subject);
     // Show compose view and hide other views
     document.querySelector('#emails-view').style.display = 'none';
@@ -292,7 +292,7 @@ function Reply(id, sender, recipients, subject , body, timestamp){
     remembermsg = `${sender}   wrote:\n${body}\n on ${timestamp}`;
     document.querySelector("#compose-body").value = remembermsg;
 
-    SendMail();
+    document.querySelector('#sendmail').addEventListener('click', SendMail());
 
 
 }
