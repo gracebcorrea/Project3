@@ -136,7 +136,7 @@ function Mailbox(mailbox){
 
 function SendMail() {
    const maildata = document.querySelector('#sendmail');
-   maildata.onsubmit = () => {
+   maildata.addEventListener('click', = () => {
         fetch('/emails', {
              method: 'POST',
              headers: { 'Content-Type': 'application/json' },
@@ -232,12 +232,10 @@ function ViewEmail(id, mailbox){
 
      });
 
-          //  document.querySelector("#reply").addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
-            document.querySelector("#read").addEventListener('click',  Markread(id, email.read));
-            document.querySelector('#archive').addEventListener('click', ArchiveandUnarchive(id, email.archived));
-
-        //  detailpart.addEventListener('click', function())
-
+    document.querySelector("#reply").addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
+    document.querySelector("#read").addEventListener('click',  Markread(id, email.read));
+    document.querySelector('#archive').addEventListener('click', ArchiveandUnarchive(id, email.archived));
+    window.history.back();
 
 
 
