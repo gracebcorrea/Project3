@@ -6,11 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#compose').addEventListener('click', compose_email);
 
 
+
     // By default, load the inbox
     load_mailbox('inbox');
 });
 
 function compose_email() {
+  console.log( "compose_email");
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
@@ -22,6 +24,7 @@ function compose_email() {
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
+
 
   SendMail();
 
@@ -45,6 +48,11 @@ function load_mailbox(mailbox) {
 }
 
 
+
+
+
+
+// See list of e-mails for each mailbox
 function Mailbox(mailbox){
 
   const url = `/emails/${mailbox}`;
@@ -69,7 +77,7 @@ function Mailbox(mailbox){
                                  <td style="width:300px"><strong> ${e.sender}</strong> </td>
                                  <td style="width:200px"><strong> ${e.subject} </strong></td>
                                  <td style="width:200px"><strong> ${e.timestamp} </strong></td>
-                                 <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');">
+                                 <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');" >
                                         <i class="fab fa-readme" style="font-size:24px;"></i> </button></td>
                                </tr>
                             </tbody>
@@ -132,37 +140,11 @@ function Mailbox(mailbox){
   .catch(function(error) {
        console.log('Looks like there was a problem: \n', error);
   });
-
-
 }
 
-function SendMail() {
-    document.querySelector('#sendmail').addEventListener('click', () => {
-        fetch('/emails', {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify({
-               recipients: document.querySelector('#compose-recipients').value,
-               subject: document.querySelector('#compose-subject').value,
-               body: document.querySelector('#compose-body').value,
-               })
-        })
-        .then(response => response.json())
-        .then(result => {
-               // Print result
-               console.log(result);
-               console.log("E-mail sent");
-               load_mailbox('sent');
-        })
-        .catch(function(error) {
-              console.log('There has been a problem with your fetch operation: ' + error.message );
-        });
-      }
-    )
-}
-
-
+//view all details from a selected e-mail
 function ViewEmail(id, mailbox){
+    console.log("ViewEmail");
     document.querySelector('#emails-view').style.display = 'block';
     document.querySelector('#emailslist').style.display = 'none';
     document.querySelector('#emaildetail').style.display = 'block';
@@ -176,12 +158,8 @@ function ViewEmail(id, mailbox){
     .then(response => response.json())
     .then(email => {
          // Print email
-
         console.log("EMAIL CONTENT : ");
         console.log(email);
-
-
-
          // ... do something else with email ...
          if (mailbox != "sent"){
              detailpart.innerHTML = `<hr>
@@ -203,8 +181,8 @@ function ViewEmail(id, mailbox){
                 <hr>
                 <div class="email-buttons row">
                       <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:530px;" > Reply</button>
-                      <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;"  > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
-                      <button class="btn btn-sm btn-outline-primary" id="archive" style="position: relative; left:570px;"  > ${email.archived ? "Unarchive" : "Archive"    }</button>
+                      <button class="btn btn-sm btn-outline-primary" id="read"    onclick="Markread( ${id}, ${email.read})"  style="position: relative; left:550px;"  > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
+                      <button class="btn btn-sm btn-outline-primary" id="archive" onclick="ArchiveandUnarchive(${id}, ${email.archived})" style="position: relative; left:570px;"  > ${email.archived ? "Unarchive" : "Archive"    }</button>
                 </div> `
              }
              else{
@@ -224,19 +202,54 @@ function ViewEmail(id, mailbox){
                   </table>
                   <hr>
                      ${email.body}
-                  <hr>
-                  <div class="email-buttons row">
-                      <button class="btn btn-sm btn-outline-primary" id="read"    style="position: relative; left:550px;" > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
-                  </div> `
+                  <hr>`
              }
              document.querySelector('#emaildetail').append( detailpart);
-
-
      });
-    // document.querySelector("#reply").addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
-     document.querySelector("#reply").addEventListener('click', Reply(id, mailbox));
-     document.querySelector("#read").addEventListener('click',  Markread(id, email.read));
-     document.querySelector('#archive').addEventListener('click', ArchiveandUnarchive(id, email.archived));
+    //document.querySelector("#reply").addEventListener('click', Reply(id, mailbox));
+}
+
+
+
+function SendMail() {
+  const maildata = document.querySelector('#compose-form');
+
+  console.log("SendMail");
+  maildata.onsubmit = () => {
+     recipients = document.querySelector('#compose-recipients').value;
+     subject = document.querySelector('#compose-subject').value;
+     body = document.querySelector('#compose-body').value;
+
+     console.log(recipients, subject, body );
+
+
+     fetch('/emails', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+           },
+        body: JSON.stringify({
+          recipients: recipients,
+          subject: subject,
+          body: body
+        }),
+        })
+      .then(response => response.json())
+      .then(result => {
+          console.log(result);
+          if (result.status == 201) {
+               alert("Message Sent!");
+               load_mailbox('sent');
+          }
+          else {
+                alert("Something wrong trying to send message -> " `${result.status}`);
+                compose_email();
+
+          }
+      });
+
+  };
 }
 
 
@@ -251,7 +264,9 @@ function ArchiveandUnarchive(id, flag){
       }),
 
   });
-  window.history.back();
+
+  load_mailbox('archive');
+  location.reload();
 
 }
 
@@ -266,7 +281,9 @@ function Markread(id, flag){
          read: !flag,
          }),
     });
-    window.history.back();
+
+  load_mailbox('inbox');
+  location.reload();
 }
 
 
@@ -282,22 +299,18 @@ function Reply(id, mailbox){
     document.querySelector('#emailslist').style.display = 'none';
     document.querySelector('#emaildetail').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'block';
-    
+
     fetch(`/emails/${id}`)
     .then(response => response.json())
     .then(email => {
          // Print email
-
         console.log("EMAIL CONTENT : ");
         console.log(email);
-      })
-
-
-    document.querySelector("#compose-recipients").value = email.sender;
-    document.querySelector("#compose-subject").value = "RE:" +  email.subject;
-
-    remembermsg = `${email.sender}   wrote:\n${email.body}\n on ${email.timestamp}`;
-    document.querySelector("#compose-body").value = remembermsg;
+        document.querySelector("#compose-recipients").value = email.sender;
+        document.querySelector("#compose-subject").value = "RE:" +  email.subject;
+        remembermsg = `${email.sender}   wrote:\n${email.body}\n on ${email.timestamp}`;
+        document.querySelector("#compose-body").value = remembermsg;
+    })
 
     SendMail();
 
