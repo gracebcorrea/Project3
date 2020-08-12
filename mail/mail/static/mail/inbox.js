@@ -170,11 +170,9 @@ function ViewEmail(id, mailbox){
     const mdetail = document.querySelector('#emaildetail');
           mdetail.innerHTML= "";
     const detailpart = document.createElement('div');
-    const url = `/emails/${id}`;
     console.log(id , mailbox);
 
-
-    fetch(url)
+    fetch(`/emails/${id}`)
     .then(response => response.json())
     .then(email => {
          // Print email
@@ -235,7 +233,8 @@ function ViewEmail(id, mailbox){
 
 
      });
-     document.querySelector("#reply").addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
+    // document.querySelector("#reply").addEventListener('click', Reply(id, email.sender, email.recipients, email.subject, email.body, email.timestamp)) ;
+     document.querySelector("#reply").addEventListener('click', Reply(id, mailbox));
      document.querySelector("#read").addEventListener('click',  Markread(id, email.read));
      document.querySelector('#archive').addEventListener('click', ArchiveandUnarchive(id, email.archived));
 }
@@ -273,20 +272,31 @@ function Markread(id, flag){
 
 
 
-function Reply(id, sender, recipients, subject, body, timestamp){
+function Reply(id, mailbox){
     alert("Inside reply");
-    console.log(id,  sender, recipients, subject);
+
+
+
     // Show compose view and hide other views
     document.querySelector('#emails-view').style.display = 'none';
     document.querySelector('#emailslist').style.display = 'none';
     document.querySelector('#emaildetail').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'block';
+    
+    fetch(`/emails/${id}`)
+    .then(response => response.json())
+    .then(email => {
+         // Print email
+
+        console.log("EMAIL CONTENT : ");
+        console.log(email);
+      })
 
 
-    document.querySelector("#compose-recipients").value = sender;
-    document.querySelector("#compose-subject").value = "RE:" +  subject;
+    document.querySelector("#compose-recipients").value = email.sender;
+    document.querySelector("#compose-subject").value = "RE:" +  email.subject;
 
-    remembermsg = `${sender}   wrote:\n${body}\n on ${timestamp}`;
+    remembermsg = `${email.sender}   wrote:\n${email.body}\n on ${email.timestamp}`;
     document.querySelector("#compose-body").value = remembermsg;
 
     SendMail();
