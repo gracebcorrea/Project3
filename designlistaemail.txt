@@ -40,3 +40,21 @@
                ${email.body} `;
 
           }
+
+
+
+
+
+  /* window.onpopstate = function(event) {
+        console.log(event.state.section);
+
+    }
+
+    document.querySelectorAll('button').forEach(button => {
+        button.onclick = function() {
+            const section = this.dataset.section;
+            history.pushState({section: section}, "", `${section}`);
+
+            };
+    });*/
+
