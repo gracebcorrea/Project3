@@ -256,7 +256,7 @@ function send_email(recipients, subject, body){
 
     fetch('/emails', {
        method: 'POST',
-       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'},
+       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
        body: JSON.stringify({
              recipients: recipients,
              subject: subject,
@@ -272,8 +272,8 @@ function send_email(recipients, subject, body){
               load_mailbox('sent');
          }
          else {
-               console.log("Something wrong trying to send message -> ", `${result.status}`);
-
+            console.log("Something wrong trying to send message -> ", `${result.status}`);
+            load_mailbox('sent');
 
          }
      });
