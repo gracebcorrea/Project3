@@ -17,10 +17,6 @@
     </div>
     <div id="emaildetail">
     </div>
-    <div id="message" >
-    </div>
-
-
 
     <div id="compose-view">
        <h3>New Email</h3>
@@ -36,13 +32,15 @@
              Subject:<input class="form-control" id="compose-subject" placeholder="Subject">
            </div>
              Message:<textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-             <input id="sendmail" type="submit" value="Send E-mail" class="btn btn-primary"/>
+             <input id="submit" type="submit" value="Send E-mail" class="btn btn-primary"/>
         </form>
     </div>
+    
 
 
 {% endblock %}
 
 {% block script %}
-    <script  type="text/javascript"  src="{% static 'mail/inbox.js'  %}"></script>
+    <script type="text/javascript"  src="{% static 'mail/inbox.js'  %}"></script>
+    <script type="text/javascript"  src="{% static 'mail/sendmail.js' %}"></script>
 {% endblock %}
