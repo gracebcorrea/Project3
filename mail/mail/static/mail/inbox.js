@@ -3,9 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
     document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
     document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
-    document.querySelector('#compose').addEventListener('click', compose_email);
-
-
+    document.querySelector('#compose').addEventListener('click', () => compose_email());
 
     // By default, load the inbox
     load_mailbox('inbox');
@@ -173,7 +171,7 @@ function ViewEmail(id, mailbox){
                    ${email.body}
                 <hr>
                 <div class="email-buttons row">
-                      <button class="btn btn-sm btn-outline-primary" id="reply"   style="position: relative; left:530px;" > Reply</button>
+                      <button class="btn btn-sm btn-outline-primary" id="reply"  style="position: relative; left:530px;" > Reply</button>
                       <button class="btn btn-sm btn-outline-primary" id="read"    onclick="Markread( ${id}, ${email.read})"  style="position: relative; left:550px;"  > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
                       <button class="btn btn-sm btn-outline-primary" id="archive" onclick="ArchiveandUnarchive(${id}, ${email.archived})" style="position: relative; left:570px;"  > ${email.archived ? "Unarchive" : "Archive"    }</button>
                 </div> `
@@ -200,6 +198,8 @@ function ViewEmail(id, mailbox){
              document.querySelector('#emaildetail').append( detailpart);
      });
     //document.querySelector("#reply").addEventListener('click', Reply(id, mailbox));
+    //onclick="Reply(${id}, ${mailbox})"
+
 }
 
 
@@ -244,11 +244,7 @@ function Markread(id, flag){
 function Reply(id, mailbox){
     alert("Inside reply");
 
-    // Show compose view and hide other views
-    document.querySelector('#emails-view').style.display = 'none';
-    document.querySelector('#emailslist').style.display = 'none';
-    document.querySelector('#emaildetail').style.display = 'none';
-    document.querySelector('#compose-view').style.display = 'block';
+    compose_email();
 
     fetch(`/emails/${id}`)
     .then(response => response.json())
