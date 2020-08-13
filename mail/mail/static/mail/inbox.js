@@ -252,19 +252,19 @@ function Markread(id, flag){
 
 function send_email(recipients, subject, body){
    console.log("Inside SendMail");
-   console.log( `${recipients}`, `${subject}`, `${ body}`);
+   console.log( `${recipients}`,`${subject}`, `${body}`);
 
-    fetch('/emails', {
+   fetch('/emails', {
        method: 'POST',
-       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+       headers: { 'Content-Type': 'application/json; text/html; charset=utf-8' },
        body: JSON.stringify({
-             recipients: recipients,
-             subject: subject,
-             body: body,
+             recipients: `${recipients}`,
+             subject: `${subject}`,
+             body: `${body}`,
              })
        })
-     .then(response => response.json())
-     .then(result => {
+       .then(response => response.json())
+       .then(result => {
            console.log(`${result.status}`);
 
          if (result.status == 201) {
