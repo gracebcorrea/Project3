@@ -1,17 +1,11 @@
-document.addEventListener("DOMContentLoaded", SendMail() );
+//document.addEventListener('DOMContentLoaded',function (){
 
+    document.querySelector('#submit').addEventListener('click', () => {
+    console.log("SendMail");
+    recipients = document.querySelector('#compose-recipients').value;
+    subject = document.querySelector('#compose-subject').value;
+    body = document.querySelector('#compose-body').value;
 
-
-function SendMail() {
-  const maildata = document.querySelector('#compose-form');
-
-  console.log("SendMail");
-
-  maildata.addEventListener('submit', () => {
-
-     recipients = document.querySelector('#compose-recipients').value;
-     subject = document.querySelector('#compose-subject').value;
-     body = document.querySelector('#compose-body').value;
 
      console.log(recipients);
      console.log(subject);
@@ -19,10 +13,7 @@ function SendMail() {
 
      fetch('/emails', {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-           },
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify({
               recipients: recipients,
               subject: subject,
@@ -44,5 +35,8 @@ function SendMail() {
           }
       });
 
-  };
-}
+  });
+
+//});
+
+    <script type="text/javascript"  src="{% static 'mail/sendmail.js'  async %}"></script>
