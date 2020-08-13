@@ -28,9 +28,13 @@ function compose_email() {
 
   console.log( "compose_email");
 
-  send_email());
-
-
+  document.querySelector('#submit').addEventListener('click', function() {
+        console.log('submit clicked!');
+        recipients = document.querySelector('#compose-recipients').value;
+        subject = document.querySelector('#compose-subject').value;
+        body = document.querySelector('#compose-body').value;
+        send_email(recipients, subject, body);
+        });
 }
 
 function load_mailbox(mailbox) {
@@ -244,18 +248,10 @@ function Markread(id, flag){
   location.reload();
 }
 
-function send_email(){
-
-  var recipients;
-  var subject;
-  var body;
+function send_email(recipients, subject, body){
 
 
-   console.log("SendMail");
-   recipients = document.querySelector('#compose-recipients').value;
-   subject = document.querySelector('#compose-subject').value;
-   body = document.querySelector('#compose-body').value;
-
+  console.log("SendMail");
    console.log(recipients, subject , body);
 
     fetch('/emails', {
@@ -281,17 +277,6 @@ function send_email(){
 
          }
      });
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
@@ -320,7 +305,7 @@ function Reply(id, mailbox){
 /* no chrome usar :
 
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --user-data-dir="D:/CS50" --disable-web-security
-
+<script type="text/javascript"  src="{% static 'mail/sendmail.js' async %}"></script>
 no mozzilla
 
 "C:\Program Files\Mozilla Firefox\firefox.exe" --network.http.referer.XOriginPolicy==0
