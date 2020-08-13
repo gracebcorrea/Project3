@@ -33,7 +33,7 @@ function compose_email() {
         recipients = document.querySelector('#compose-recipients').value;
         subject = document.querySelector('#compose-subject').value;
         body = document.querySelector('#compose-body').value;
-        send_email(recipients, subject, body);
+        send_email(`${recipients}`, `${subject}`,`${body}`);
         });
 }
 
@@ -218,7 +218,7 @@ function ViewEmail(id, mailbox){
 function ArchiveandUnarchive(id, flag){
   const url = `/emails/${id}`;
   console.log("ArchiveandUnarchive");
-  console.log(id, flag);
+  console.log(`${id}`,`${flag}`);
   fetch(url, {
     method: "PUT",
     body: JSON.stringify({
@@ -235,7 +235,7 @@ function ArchiveandUnarchive(id, flag){
 function Markread(id, flag){
   const url = `/emails/${id}`;
   console.log("Markread");
-  console.log(id, flag);
+  console.log(`${id}`,`${flag}`);
 
   fetch(url, {
     method: "PUT",
@@ -248,11 +248,11 @@ function Markread(id, flag){
   location.reload();
 }
 
+
+
 function send_email(recipients, subject, body){
-
-
-  console.log("SendMail");
-   console.log(recipients, subject , body);
+   console.log("Inside SendMail");
+   console.log( `${recipients}`, `${subject}`, `${ body}`);
 
     fetch('/emails', {
        method: 'POST',
@@ -265,14 +265,14 @@ function send_email(recipients, subject, body){
        })
      .then(response => response.json())
      .then(result => {
-           console.log(result.status);
+           console.log(`${result.status}`);
 
          if (result.status == 201) {
               alert("Message Sent!");
               load_mailbox('sent');
          }
          else {
-               alert("Something wrong trying to send message -> " `${result.status}`);
+               console.log("Something wrong trying to send message -> ", `${result.status}`);
 
 
          }
