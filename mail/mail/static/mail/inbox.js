@@ -1,12 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    // Use buttons to toggle between views
     document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
-    document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
-    document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
-    document.querySelector('#compose').addEventListener('click', () => compose_email());
-
     // By default, load the inbox
     load_mailbox('inbox');
+
+    document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
+    document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
+    document.querySelector('#compose').addEventListener('click', compose_email);
+
+
 });
 
 function compose_email() {
@@ -22,7 +25,10 @@ function compose_email() {
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
+
   console.log( "compose_email");
+
+  send_email());
 
 
 }
@@ -45,7 +51,7 @@ function load_mailbox(mailbox) {
 
 // See list of e-mails for each mailbox
 function Mailbox(mailbox){
-
+  console.log("Mailbox");
   const url = `/emails/${mailbox}`;
   const mydiv = document.querySelector('#emailslist');
   mydiv.innerHTML= "";
@@ -55,8 +61,8 @@ function Mailbox(mailbox){
   .then((response) => response.json())
   .then(emails => {
       emails.forEach((e) => {
-          console.log(e.id);
-          console.log( `${mailbox}`);
+          console.log(e.id ,  `${mailbox}` );
+
 
           const ediv = document.createElement('div');
           if (e.read == 0){
@@ -238,7 +244,56 @@ function Markread(id, flag){
   location.reload();
 }
 
+function send_email(){
 
+  var recipients;
+  var subject;
+  var body;
+
+
+   console.log("SendMail");
+   recipients = document.querySelector('#compose-recipients').value;
+   subject = document.querySelector('#compose-subject').value;
+   body = document.querySelector('#compose-body').value;
+
+   console.log(recipients, subject , body);
+
+    fetch('/emails', {
+       method: 'POST',
+       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'},
+       body: JSON.stringify({
+             recipients: recipients,
+             subject: subject,
+             body: body,
+             })
+       })
+     .then(response => response.json())
+     .then(result => {
+           console.log(result.status);
+
+         if (result.status == 201) {
+              alert("Message Sent!");
+              load_mailbox('sent');
+         }
+         else {
+               alert("Something wrong trying to send message -> " `${result.status}`);
+
+
+         }
+     });
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
 
 function Reply(id, mailbox){
