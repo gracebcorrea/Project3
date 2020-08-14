@@ -266,10 +266,11 @@ function send_email(recipients, subject, body){
        .then(result => {
            console.log('Success:', result);
               alert("Message Sent!");
-              load_mailbox('sent');
+              load_mailbox('sent')
        })
         .catch((error) => {
               console.error('Error:', error);
+              load_mailbox('sent')
         });
 }
 
