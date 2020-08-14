@@ -148,6 +148,8 @@ function ViewEmail(id, mailbox){
     document.querySelector('#emailslist').style.display = 'none';
     document.querySelector('#emaildetail').style.display = 'block';
     document.querySelector('#compose-view').style.display = 'none';
+
+
     const mdetail = document.querySelector('#emaildetail');
           mdetail.innerHTML= "";
     const detailpart = document.createElement('div');
@@ -158,6 +160,9 @@ function ViewEmail(id, mailbox){
          // Print email
         console.log("EMAIL CONTENT : ");
         console.log(email);
+        // if (mailbox == "inbox" && `${email.read}`=False) {
+        //     ArchiveandUnarchive(`${id}`, `${email.read}`);
+        //}
          // ... do something else with email ...
          if (mailbox != "sent"){
              detailpart.innerHTML = `<hr>
