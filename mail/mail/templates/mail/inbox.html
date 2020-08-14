@@ -22,7 +22,7 @@
     <div id="compose-view">
        <h3>New Email</h3>
        <form id="compose-form">
-         {% csrf_token %}
+        
          <div class="form-group">
                From: <input disabled class="form-control" id="compose-sender" value="{{ request.user.email }}">
            </div>
