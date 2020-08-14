@@ -180,7 +180,7 @@ function ViewEmail(id, mailbox){
                    ${email.body}
                 <hr>
                 <div class="email-buttons row">
-                      <button class="btn btn-sm btn-outline-primary" id="reply"  style="position: relative; left:530px;" > Reply</button>
+                      <button class="btn btn-sm btn-outline-primary" id="reply"   onclick="Reply(${id})" style="position: relative; left:530px;" > Reply</button>
                       <button class="btn btn-sm btn-outline-primary" id="read"    onclick="Markread( ${id}, ${email.read})"  style="position: relative; left:550px;"  > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
                       <button class="btn btn-sm btn-outline-primary" id="archive" onclick="ArchiveandUnarchive(${id}, ${email.archived})" style="position: relative; left:570px;"  > ${email.archived ? "Unarchive" : "Archive"    }</button>
                 </div> `
@@ -250,10 +250,11 @@ function Markread(id, flag){
 
 
 function send_email(recipients, subject, body){
+   const url = '/emails';
    console.log("Inside SendMail");
    console.log( `${recipients}`,`${subject}`, `${body}`);
 
-   fetch('/emails', {
+   fetch(url , {
        method: 'POST',
        headers: { 'Content-Type': 'application/json', },
        body: JSON.stringify({
@@ -274,24 +275,44 @@ function send_email(recipients, subject, body){
 }
 
 
-function Reply(id, mailbox){
-    alert("Inside reply");
+function Reply(id){
+    console.log("Inside reply");
+    const url = `/emails/${id}`;
 
-    compose_email();
+      // Show compose view and hide other views
+      document.querySelector('#emails-view').style.display = 'none';
+      document.querySelector('#emailslist').style.display = 'none';
+      document.querySelector('#emaildetail').style.display = 'none';
+      document.querySelector('#compose-view').style.display = 'block';
 
-    fetch(`/emails/${id}`)
+      // Clear out composition fields
+      document.querySelector('#compose-recipients').value = '';
+      document.querySelector('#compose-subject').value = '';
+      document.querySelector('#compose-body').value = '';
+
+    fetch(url)
     .then(response => response.json())
     .then(email => {
          // Print email
         console.log("EMAIL CONTENT : ");
         console.log(email);
         document.querySelector("#compose-recipients").value = email.sender;
-        document.querySelector("#compose-subject").value = "RE:" +  email.subject;
+        document.querySelector("#compose-subject").value = "RE: " +  email.subject;
         remembermsg = `${email.sender}   wrote:\n${email.body}\n on ${email.timestamp}`;
         document.querySelector("#compose-body").value = remembermsg;
     })
     .catch((error) => {
             console.error('Error:', error);
+            
+
+    document.querySelector('#submit').addEventListener('click', function() {
+          console.log('submit clicked!');
+          recipients = document.querySelector('#compose-recipients').value;
+          subject = document.querySelector('#compose-subject').value;
+          body = document.querySelector('#compose-body').value;
+          send_email(`${recipients}`, `${subject}`,`${body}`);
+          });
+
 });
 
 
