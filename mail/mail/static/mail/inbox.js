@@ -254,7 +254,7 @@ function send_email(recipients, subject, body){
    console.log("Inside SendMail");
    console.log( `${recipients}`,`${subject}`, `${body}`);
 
-   fetch('/emails', {
+   fetch(`/emails`, {
        method: 'POST',
        headers: { 'Content-Type': 'application/json; text/html; charset=utf-8' },
        body: JSON.stringify({
