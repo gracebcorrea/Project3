@@ -253,9 +253,9 @@ function send_email(recipients, subject, body){
    console.log("Inside SendMail");
    console.log( `${recipients}`,`${subject}`, `${body}`);
 
-   fetch(`/emails`, {
+   fetch('/emails', {
        method: 'POST',
-       headers: { 'Content-Type': 'application/json' },
+
        body: JSON.stringify({
              recipients: `${recipients}`,
              subject: `${subject}`,
@@ -303,9 +303,10 @@ function Reply(id, mailbox){
 }
 /* no chrome usar :
 
-"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --user-data-dir="D:/CS50" --disable-web-security
-<script type="text/javascript"  src="{% static 'mail/sendmail.js' async %}"></script>
+chrome.exe --user-data-dir="D:/CS50" --disable-web-security
 no mozzilla
+
+   headers: { 'Content-Type': 'application/json' },
 
 "C:\Program Files\Mozilla Firefox\firefox.exe" --network.http.referer.XOriginPolicy==0
 
