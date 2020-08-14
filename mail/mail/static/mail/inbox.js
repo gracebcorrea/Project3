@@ -255,7 +255,7 @@ function send_email(recipients, subject, body){
 
    fetch('/emails', {
        method: 'POST',
-
+       headers: { 'Content-Type': 'application/json', },
        body: JSON.stringify({
              recipients: `${recipients}`,
              subject: `${subject}`,
@@ -264,19 +264,13 @@ function send_email(recipients, subject, body){
        })
        .then(response => response.json())
        .then(result => {
-           console.log(`${result.status}`);
-
-         if (result.status == 201) {
+           console.log('Success:', result);
               alert("Message Sent!");
               load_mailbox('sent');
-         }
-         else {
-            console.log("Something wrong trying to send message -> ", `${result.status}`);
-            load_mailbox('sent');
-
-         }
-     });
-
+       })
+        .catch((error) => {
+              console.error('Error:', error);
+        });
 }
 
 
@@ -296,14 +290,16 @@ function Reply(id, mailbox){
         remembermsg = `${email.sender}   wrote:\n${email.body}\n on ${email.timestamp}`;
         document.querySelector("#compose-body").value = remembermsg;
     })
-
+    .catch((error) => {
+            console.error('Error:', error);
+});
 
 
 
 }
 /* no chrome usar :
 
-chrome.exe --user-data-dir="D:/CS50" --disable-web-security
+chrome.exe --user-data-dir="D:\CS50" --disable-web-security
 no mozzilla
 
    headers: { 'Content-Type': 'application/json' },
