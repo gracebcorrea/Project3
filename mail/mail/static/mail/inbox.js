@@ -257,9 +257,9 @@ function send_email(recipients, subject, body){
        method: 'POST',
        headers: { 'Content-Type': 'application/json', },
        body: JSON.stringify({
-             recipients: `${recipients}`,
-             subject: `${subject}`,
-             body: `${body}`,
+             recipients: recipients,
+             subject: subject,
+             body: body,
              })
        })
        .then(response => response.json())
@@ -300,6 +300,7 @@ function Reply(id, mailbox){
 /* no chrome usar :
 
 chrome.exe --user-data-dir="D:\CS50" --disable-web-security
+
 no mozzilla
 
    headers: { 'Content-Type': 'application/json' },
