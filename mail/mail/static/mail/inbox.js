@@ -29,7 +29,7 @@ function compose_email() {
   console.log( "compose_email");
 
   document.querySelector('#submit').addEventListener('click', function() {
-        console.log('submit clicked!');
+        console.log('submit send clicked!');
         recipients = document.querySelector('#compose-recipients').value;
         subject = document.querySelector('#compose-subject').value;
         body = document.querySelector('#compose-body').value;
@@ -55,7 +55,7 @@ function load_mailbox(mailbox) {
 
 // See list of e-mails for each mailbox
 function Mailbox(mailbox){
-  console.log("Mailbox");
+  console.log("Mailbox:",`${mailbox}` );
   const url = `/emails/${mailbox}`;
   const mydiv = document.querySelector('#emailslist');
   mydiv.innerHTML= "";
@@ -251,16 +251,15 @@ function Markread(id, flag){
 
 function send_email(recipients, subject, body){
    const url = '/emails';
-   console.log("Inside SendMail");
-   console.log( `${recipients}`,`${subject}`, `${body}`);
+   console.log("Inside SendMail : ", `${recipients}`,`${subject}`, `${body}`);
 
    fetch(url , {
        method: 'POST',
        headers: { 'Content-Type': 'application/json', },
        body: JSON.stringify({
-             recipients: recipients,
-             subject: subject,
-             body: body,
+             recipients: `${recipients}`,
+             subject: `${subject}`,
+             body: `${body}`,
              })
        })
        .then(response => response.json())
@@ -303,10 +302,10 @@ function Reply(id){
     })
     .catch((error) => {
             console.error('Error:', error);
-            
+
 
     document.querySelector('#submit').addEventListener('click', function() {
-          console.log('submit clicked!');
+          console.log('submit reply clicked!');
           recipients = document.querySelector('#compose-recipients').value;
           subject = document.querySelector('#compose-subject').value;
           body = document.querySelector('#compose-body').value;
