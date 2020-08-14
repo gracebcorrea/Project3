@@ -224,7 +224,7 @@ function ArchiveandUnarchive(id, flag){
 
   });
 
-  load_mailbox('archive');
+  load_mailbox('inbox');
   location.reload();
 
 }
@@ -296,11 +296,11 @@ function Reply(id){
         console.log(email);
         document.querySelector("#compose-recipients").value = email.sender;
         document.querySelector("#compose-subject").value = "RE: " +  email.subject;
-        remembermsg = `${email.sender}   wrote:\n${email.body}\n on ${email.timestamp}`;
+        remembermsg = `On ${email.timestamp}, ${email.sender} wrote:\n${email.body}\n `;
         document.querySelector("#compose-body").value = remembermsg;
     })
     .catch((error) => {
-            console.error('Error:', error);
+            console.error('Error:',`${error}`);
 
 
     document.querySelector('#submit').addEventListener('click', function() {
