@@ -65,7 +65,7 @@ function Mailbox(mailbox){
   .then((response) => response.json())
   .then(emails => {
       emails.forEach((e) => {
-          console.log(e.id ,  `${mailbox}` );
+          //console.log(e.id ,  `${mailbox}` );
 
 
           const ediv = document.createElement('div');
@@ -153,7 +153,6 @@ function ViewEmail(id, mailbox){
     const mdetail = document.querySelector('#emaildetail');
           mdetail.innerHTML= "";
     const detailpart = document.createElement('div');
-    console.log(id , mailbox);
 
     fetch(`/emails/${id}`)
     .then(response => response.json())
@@ -256,7 +255,7 @@ function send_email(recipients, subject, body){
 
    fetch(`/emails`, {
        method: 'POST',
-       headers: { 'Content-Type': 'application/json; text/html; charset=utf-8' },
+       headers: { 'Content-Type': 'application/json' },
        body: JSON.stringify({
              recipients: `${recipients}`,
              subject: `${subject}`,
