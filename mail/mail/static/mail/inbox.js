@@ -163,10 +163,10 @@ function ViewEmail(id, mailbox){
 
         if ((mailbox === "inbox") && (`${email.read}`=="false"))
              Markread( `${id}`, `${email.read}`);
-
+    
 
          // ... do something else with email ...
-         if (mailbox != "sent"){
+        if (mailbox != "sent"){
              detailpart.innerHTML = `<hr>
                 <table style= "border:none;">
                 <tbody>
@@ -189,10 +189,10 @@ function ViewEmail(id, mailbox){
                       <button class="btn btn-sm btn-outline-primary" id="read"    onclick="Markread( ${id}, ${email.read})"  style="position: relative; left:550px;"  > ${email.read ?  "Mark as Unread" : "Mark as Read"}</button>
                       <button class="btn btn-sm btn-outline-primary" id="archive" onclick="ArchiveandUnarchive(${id}, ${email.archived})" style="position: relative; left:570px;"  > ${email.archived ? "Unarchive" : "Archive"    }</button>
                 </div> `
-             }
-             else{
-               detailpart.innerHTML = `<hr>
-                  <table style= "border:none;">
+        }
+        else{
+            detailpart.innerHTML = `<hr>
+              <table style= "border:none;">
                   <tbody>
                       <tr>
                       <td ><strong>From:  </strong>  ${email.sender}</td>
@@ -202,14 +202,13 @@ function ViewEmail(id, mailbox){
                       <td ><strong>Subject: </strong> ${email.subject} </td>
                       <td ><strong>Date:    </strong> ${email.timestamp}</td>
                       </tr>
-
                   </tbody>
-                  </table>
-                  <hr>
-                     ${email.body}
-                  <hr>`
-             }
-             document.querySelector('#emaildetail').append( detailpart);
+              </table>
+              <hr>
+              ${email.body}
+              <hr>`
+        }
+        document.querySelector('#emaildetail').append( detailpart);
      });
     //document.querySelector("#reply").addEventListener('click', Reply(id, mailbox));
     //onclick="Reply(${id}, ${mailbox})"
@@ -230,7 +229,6 @@ function ArchiveandUnarchive(id, flag){
       }),
 
   });
-  location.reload();
   load_mailbox('inbox');
 
 
