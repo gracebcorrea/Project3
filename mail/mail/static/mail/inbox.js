@@ -160,10 +160,11 @@ function ViewEmail(id, mailbox){
          // Print email
         console.log("EMAIL CONTENT : ");
         console.log(email);
-         if ((mailbox === "inbox") && (`${email.read}`==="false")) {
+
+        if ((mailbox === "inbox") && (`${email.read}`=="false")){
              Markread( `${id}`, `${email.read}`);
-          
-         }
+        }
+
          // ... do something else with email ...
          if (mailbox != "sent"){
              detailpart.innerHTML = `<hr>
@@ -244,9 +245,8 @@ function Markread(id, flag){
     method: "PUT",
     body: JSON.stringify({
          read: !flag,
-         }),
+         })
   });
-
 }
 
 
