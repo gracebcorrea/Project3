@@ -7,3 +7,9 @@ table {
   border: 2px solid #99ccff;
   width: 100%;
 }
+
+#openenv {
+  src :"mail/images/envelopeaberto.png";
+  style:"font-size:24px;";
+
+}
