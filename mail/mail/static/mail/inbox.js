@@ -10,6 +10,18 @@ document.addEventListener('DOMContentLoaded', function () {
     load_mailbox('inbox');
 });
 
+window.onpopstate = function(event) {
+        console.log(event.state.section);
+}
+
+document.querySelectorAll('button').forEach(button => {
+        button.onclick = function() {
+            const section = this.dataset.section;
+            history.pushState({section: section}, "", `${section}`);
+            };
+});
+
+
 function compose_email() {
 
 
@@ -93,7 +105,7 @@ function Mailbox(mailbox){
                                 <td style="width:300px"><strong> ${e.recipients}</strong> </td>
                                 <td style="width:200px"><strong> ${e.subject} </strong></td>
                                 <td style="width:200px"><strong> ${e.timestamp} </strong></td>
-                                <td style="width:100px;"><button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');"  >
+                                <td style="width:100px;"><button class="btn" id="ViewEmail"  onclick="ViewEmail(${e.id},'${mailbox}');"  >
                                 <i class="fab fa-readme" style="font-size:24px;"></i>
                                 </button></td>
                               </tr>
@@ -111,7 +123,7 @@ function Mailbox(mailbox){
                                 <td style="width:300px">  ${e.sender}</td>
                                 <td style="width:200px">  ${e.subject} </td>
                                 <td style="width:200px; align:right;">  ${e.timestamp} </td>
-                                <td style="width:100px;"><button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');"  >
+                                <td style="width:100px;"><button class="btn" id="ViewEmail"  onclick="ViewEmail(${e.id},'${mailbox}');"  >
                                 <i class="fab fa-readme" style="font-size:24px;"></i>
                                 </button></td>
                               </tr>
@@ -127,7 +139,7 @@ function Mailbox(mailbox){
                                 <td style="width:300px">  ${e.recipients}</td>
                                 <td style="width:200px">  ${e.subject} </td>
                                 <td style="width:200px; align:right;">  ${e.timestamp} </td>
-                                <td style="width:100px;"><button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');"  >
+                                <td style="width:100px;"><button class="btn" id="ViewEmail"  onclick="ViewEmail(${e.id},'${mailbox}');"  >
                                 <i class="fab fa-readme" style="font-size:24px;"></i>
                                 </button></td>
                               </tr>
@@ -336,5 +348,5 @@ no mozzilla
 
 "C:\Program Files\Mozilla Firefox\firefox.exe" --network.http.referer.XOriginPolicy==0
 
-<i class="fab fa-readme" style="font-size:24px;"></i>
+
 */
