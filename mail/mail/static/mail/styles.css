@@ -8,8 +8,7 @@ table {
   width: 100%;
 }
 
-#openenv {
-  src :"mail/images/envelopeaberto.png";
-  style:"font-size:24px;";
 
+button #ViewEmail {
+   background: url('mail/images/envelopeaberto.png');
 }
