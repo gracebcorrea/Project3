@@ -7,10 +7,3 @@ table {
   border: 2px solid #99ccff;
   width: 100%;
 }
-
-
-button #ViewEmail {
-   background: url('mail/images/envelopeaberto.png') no-repeat;
-   background-size: 100%;
-   width: 50%;
-}
