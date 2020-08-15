@@ -92,7 +92,7 @@ function Mailbox(mailbox){
                                 <td style="width:200px"><strong> ${e.subject} </strong></td>
                                 <td style="width:200px"><strong> ${e.timestamp} </strong></td>
                                 <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id}, '${mailbox}');">
-                                      <i class="fab fa-readme" style="font-size:24px;"> </i></button></td>
+                                      <i class="fab fa-readme" style="font-size:24px;"></i> </button></td>
                               </tr>
                           </tbody>
                     </table>  `;
@@ -109,7 +109,7 @@ function Mailbox(mailbox){
                                 <td style="width:200px">  ${e.subject} </td>
                                 <td style="width:200px; align:right;">  ${e.timestamp} </td>
                                 <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id}, '${mailbox}');">
-                                  <i class="fab fa-readme" style="font-size:24px;"> </i></button></td>
+                                    <i class="fab fa-readme" style="font-size:24px;"></i> </button></td>
                               </tr>
                             </tbody>
                       </table>`;
@@ -124,7 +124,8 @@ function Mailbox(mailbox){
                                 <td style="width:200px">  ${e.subject} </td>
                                 <td style="width:200px; align:right;">  ${e.timestamp} </td>
                                 <td style="width:50px"> <button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id}, '${mailbox}');">
-                                      <i class="fab fa-readme" style="font-size:24px;"></i> </button></td>
+                                    <i class="fab fa-readme" style="font-size:24px;"></i> </button></td>
+
                               </tr>
                           </tbody>
                       </table>`;
@@ -163,7 +164,7 @@ function ViewEmail(id, mailbox){
 
         if ((mailbox === "inbox") && (`${email.read}`=="false"))
              Markread( `${id}`, `${email.read}`);
-    
+
 
          // ... do something else with email ...
         if (mailbox != "sent"){
@@ -265,8 +266,8 @@ function send_email(recipients, subject, body){
        .then(response => response.json())
        .then(result => {
            console.log('Success:', result);
-              alert("Message Sent!");
-              load_mailbox('sent')
+              load_mailbox('sent');
+              alert("Message Sent!")
        })
         .catch((error) => {
               console.error('Error:', error);
