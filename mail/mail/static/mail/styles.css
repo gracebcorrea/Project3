@@ -10,5 +10,7 @@ table {
 
 
 button #ViewEmail {
-   background: url('mail/images/envelopeaberto.png');
+   background: url('mail/images/envelopeaberto.png') no-repeat;
+   background-size: 100%;
+   width: 50%;
 }
