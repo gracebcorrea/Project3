@@ -76,7 +76,8 @@ function Mailbox(mailbox){
                                  <td style="width:300px"><strong> ${e.sender}</strong> </td>
                                  <td style="width:200px"><strong> ${e.subject} </strong></td>
                                  <td style="width:200px"><strong> ${e.timestamp} </strong></td>
-                                 <td style="width:100px;"><button class="btn btn-sm btn-outline-primary" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');" >
+                                 <td style="width:100px;"><button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');"  >
+                                 <i class="fab fa-readme" style="font-size:24px;"></i>
                                  </button></td>
                                </tr>
                             </tbody>
@@ -91,7 +92,8 @@ function Mailbox(mailbox){
                                 <td style="width:300px"><strong> ${e.recipients}</strong> </td>
                                 <td style="width:200px"><strong> ${e.subject} </strong></td>
                                 <td style="width:200px"><strong> ${e.timestamp} </strong></td>
-                                <td style="width:100px;"><button class="btn btn-sm btn-outline-primary" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');" >
+                                <td style="width:100px;"><button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');"  >
+                                <i class="fab fa-readme" style="font-size:24px;"></i>
                                 </button></td>
                               </tr>
                           </tbody>
@@ -108,7 +110,8 @@ function Mailbox(mailbox){
                                 <td style="width:300px">  ${e.sender}</td>
                                 <td style="width:200px">  ${e.subject} </td>
                                 <td style="width:200px; align:right;">  ${e.timestamp} </td>
-                                <td style="width:100px;"><button class="btn btn-sm btn-outline-primary" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');" >
+                                <td style="width:100px;"><button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');"  >
+                                <i class="fab fa-readme" style="font-size:24px;"></i>
                                 </button></td>
                               </tr>
                             </tbody>
@@ -123,9 +126,9 @@ function Mailbox(mailbox){
                                 <td style="width:300px">  ${e.recipients}</td>
                                 <td style="width:200px">  ${e.subject} </td>
                                 <td style="width:200px; align:right;">  ${e.timestamp} </td>
-                                <td style="width:100px;"><button class="btn btn-sm btn-outline-primary" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');" >
+                                <td style="width:100px;"><button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');"  >
+                                <i class="fab fa-readme" style="font-size:24px;"></i>
                                 </button></td>
-
                               </tr>
                           </tbody>
                       </table>`;
@@ -266,8 +269,8 @@ function send_email(recipients, subject, body){
        .then(response => response.json())
        .then(result => {
            console.log('Success:', result);
-              load_mailbox('sent');
-              alert("Message Sent!")
+              alert("Message Sent!");
+              load_mailbox('sent')
        })
         .catch((error) => {
               console.error('Error:', error);
