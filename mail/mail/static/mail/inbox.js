@@ -46,13 +46,14 @@ function load_mailbox(mailbox) {
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
-  Mailbox(mailbox);
+  Mailbox(`${mailbox}`);
 
 }
 
 
 // See list of e-mails for each mailbox
 function Mailbox(mailbox){
+
   console.log("Mailbox:",`${mailbox}` );
   const url = `/emails/${mailbox}`;
   const mydiv = document.querySelector('#emailslist');
@@ -233,7 +234,7 @@ function ArchiveandUnarchive(id, flag){
       }),
 
   });
-  load_mailbox('inbox');
+
 
 
 }
@@ -249,7 +250,51 @@ function Markread(id, flag){
          read: !flag,
          })
   });
+
 }
+
+function Reply(id){
+    console.log("Inside reply");
+    const url = `/emails/${id}`;
+
+      // Show compose view and hide other views
+      document.querySelector('#emails-view').style.display = 'none';
+      document.querySelector('#emailslist').style.display = 'none';
+      document.querySelector('#emaildetail').style.display = 'none';
+      document.querySelector('#compose-view').style.display = 'block';
+
+      // Clear out composition fields
+      document.querySelector('#compose-recipients').value = '';
+      document.querySelector('#compose-subject').value = '';
+      document.querySelector('#compose-body').value = '';
+
+    fetch(url)
+    .then(response => response.json())
+    .then(email => {
+         // Print email
+        console.log("EMAIL CONTENT : ");
+        console.log(email);
+        document.querySelector("#compose-recipients").value = email.sender;
+        document.querySelector("#compose-subject").value = "RE: " +  email.subject;
+        remembermsg = `${email.sender}   wrote:\n${email.body}\n on ${email.timestamp}`;
+        document.querySelector("#compose-body").value = remembermsg;
+    })
+    .catch((error) => {
+            console.error('Error:', error);
+
+
+    document.querySelector('#submit').addEventListener('click', function() {
+          console.log('submit reply clicked!');
+          recipients = document.querySelector('#compose-recipients').value;
+          subject = document.querySelector('#compose-subject').value;
+          body = document.querySelector('#compose-body').value;
+          send_email(`${recipients}`, `${subject}`,`${body}`);
+          });
+
+});
+
+}
+
 
 
 
@@ -279,47 +324,10 @@ function send_email(recipients, subject, body){
 }
 
 
-function Reply(id){
-    console.log("Inside reply");
-    const url = `/emails/${id}`;
-
-      // Show compose view and hide other views
-      document.querySelector('#emails-view').style.display = 'none';
-      document.querySelector('#emailslist').style.display = 'none';
-      document.querySelector('#emaildetail').style.display = 'none';
-      document.querySelector('#compose-view').style.display = 'block';
-
-      // Clear out composition fields
-      document.querySelector('#compose-recipients').value = '';
-      document.querySelector('#compose-subject').value = '';
-      document.querySelector('#compose-body').value = '';
-
-    fetch(url)
-    .then(response => response.json())
-    .then(email => {
-         // Print email
-        console.log("EMAIL CONTENT : ");
-        console.log(email);
-        document.querySelector("#compose-recipients").value = email.sender;
-        document.querySelector("#compose-subject").value = "RE: " +  email.subject;
-        remembermsg = `On ${email.timestamp}, ${email.sender} wrote:\n${email.body}\n `;
-        document.querySelector("#compose-body").value = remembermsg;
-    })
-    .catch((error) => {
-            console.error('Error:',`${error}`);
 
 
-    document.querySelector('#submit').addEventListener('click', function() {
-          console.log('submit reply clicked!');
-          recipients = document.querySelector('#compose-recipients').value;
-          subject = document.querySelector('#compose-subject').value;
-          body = document.querySelector('#compose-body').value;
-          send_email(`${recipients}`, `${subject}`,`${body}`);
-          });
 
-});
 
-}
 /* no chrome usar :
 
 chrome.exe --user-data-dir="D:\CS50" --disable-web-security
