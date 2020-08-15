@@ -280,18 +280,16 @@ function Reply(id){
         document.querySelector("#compose-body").value = remembermsg;
     })
     .catch((error) => {
-            console.error('Error:', error);
-
+        console.error('Error:', error);
+    });
 
     document.querySelector('#submit').addEventListener('click', function() {
-          console.log('submit reply clicked!');
-          recipients = document.querySelector('#compose-recipients').value;
-          subject = document.querySelector('#compose-subject').value;
-          body = document.querySelector('#compose-body').value;
-          send_email(`${recipients}`, `${subject}`,`${body}`);
-          });
-
-});
+        console.log('Reply send clicked!');
+        recipients = document.querySelector('#compose-recipients').value;
+        subject = document.querySelector('#compose-subject').value;
+        body = document.querySelector('#compose-body').value;
+        send_email(`${recipients}`, `${subject}`,`${body}`);
+        });
 
 }
 
