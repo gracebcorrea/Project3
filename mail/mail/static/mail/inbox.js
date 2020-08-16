@@ -45,7 +45,7 @@ function compose_email() {
         subject = document.querySelector('#compose-subject').value;
         body = document.querySelector('#compose-body').value;
         send_email(`${recipients}`, `${subject}`,`${body}`);
-        load_mailbox('sent');
+
         });
 }
 
@@ -59,18 +59,16 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-  console.log( "load_mailbox");
+  console.log( "load_mailbox", `${mailbox}`);
 }
 
 
 // See list of e-mails for each mailbox
 function Mailbox_List(mailbox){
-
-  console.log("Mailbox_List:",`${mailbox}` );
   const url = `/emails/${mailbox}`;
   const mydiv = document.querySelector('#emailslist');
   mydiv.innerHTML= "";
-
+  console.log("Mailbox_List:",`${mailbox}` );
 
   fetch(url)
   .then((response) => response.json())
