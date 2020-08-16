@@ -78,8 +78,7 @@ function Mailbox_List(mailbox){
   .then((response) => response.json())
   .then(emails => {
       emails.forEach((e) => {
-          //console.log(e.id ,  `${mailbox}` );
-
+        //console.log(e.id ,  `${mailbox}` );
 
           const ediv = document.createElement('div');
           if (e.read == 0){
@@ -156,7 +155,12 @@ function Mailbox_List(mailbox){
       })
   })
   .catch(function(error) {
-       console.log('Looks like there was a problem: \n', error);
+      document.querySelector('#message').innerHTML=`
+           <div class="alert alert-danger" >
+                <span class="closebtn" onclick=""> ${error}  -  ${e.id}</span>
+
+           </div>`;
+
   });
 }
 
@@ -330,8 +334,8 @@ function send_email(recipients, subject, body){
        .then(result => {
             load_mailbox('sent');
             document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
-            alert("Message Sent")
-            window.setTimeout( Mailbox_List('sent'),9000000);
+            Mailbox_List('sent');
+            window.stop();
 
 
        })
