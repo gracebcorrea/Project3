@@ -58,3 +58,10 @@
             };
     });*/
 
+
+Hi all ! I am struggling with my send function.
+First to have the fetch "POST" working, I had to turn down my firewall, otherwise it won´t work , now I have this error that i hope one of you can help me to solve.
+After send a message the connection is aborting, and it doesnt finish correctly.
+It must end redirecting to the "sent" section.
+Can someone give me a tip on how to solve this? Please?
+
