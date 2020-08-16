@@ -326,7 +326,8 @@ function send_email(recipients, subject, body){
        })
        .then(response => response.json())
        .then(result => {
-            alert("Message Sent!")
+            alert("Message Sent!");
+            load_mailbox('sent')
 
        })
         .catch((error) => {
