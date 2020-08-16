@@ -85,6 +85,7 @@ def mailbox(request, mailbox):
         emails = Email.objects.filter(
             user=request.user, sender=request.user
         )
+        
     elif mailbox == "archive":
         emails = Email.objects.filter(
             user=request.user, recipients=request.user, archived=True
@@ -94,6 +95,7 @@ def mailbox(request, mailbox):
 
     # Return emails in reverse chronologial order
     emails = emails.order_by("-timestamp").all()
+
     return JsonResponse([email.serialize() for email in emails], safe=False)
 
 
