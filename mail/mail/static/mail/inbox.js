@@ -179,9 +179,9 @@ function ViewEmail(id, mailbox){
         console.log("EMAIL CONTENT : ");
         console.log(email);
 
-        if ((mailbox === "inbox") && (`${email.read}`=="false"))
-             Markread( `${id}`, `${email.read}`);
-
+        if (email.read== 0){
+             Markread( `${id}`,0);
+        }
 
          // ... do something else with email ...
         if (mailbox != "sent"){
