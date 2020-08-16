@@ -326,10 +326,12 @@ function send_email(recipients, subject, body){
        .then(result => {
            console.log('Success:', result);
               alert("Message Sent!");
+              Location.reload();
               load_mailbox('sent')
        })
         .catch((error) => {
               console.error('Error:', error);
+              Location.reload();
               load_mailbox('sent')
         });
 }
