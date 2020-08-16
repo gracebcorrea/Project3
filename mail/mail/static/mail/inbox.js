@@ -157,9 +157,10 @@ function Mailbox_List(mailbox){
   .catch(function(error) {
       document.querySelector('#message').innerHTML=`
            <div class="alert alert-danger" >
-                <span class="closebtn" onclick=""> ${error}  -  ${e.id}</span>
+                <span class="closebtn" onclick="window.close()"> ${error}  -  ${e.id}</span>
 
            </div>`;
+       window.stop();
 
   });
 }
@@ -335,7 +336,6 @@ function send_email(recipients, subject, body){
             load_mailbox('sent');
             document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
             Mailbox_List('sent');
-            window.stop();
 
 
        })
