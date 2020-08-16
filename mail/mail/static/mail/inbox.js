@@ -328,10 +328,11 @@ function send_email(recipients, subject, body){
        })
        .then(response => response.json())
        .then(result => {
-            setTimeout( ()=> console.log("Message Sent"), 2000);
-            setTimeout( ()=> load_mailbox('sent'),2000);
+            load_mailbox('sent');
             document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
-            setTimeout( ()=> Mailbox_List('sent'),2000);
+            alert("Message Sent")
+            window.setTimeout( Mailbox_List('sent'),9000000);
+
 
        })
         .catch((error) => {
