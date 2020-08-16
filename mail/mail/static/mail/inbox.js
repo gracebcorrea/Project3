@@ -314,8 +314,9 @@ function send_email(recipients, subject, body){
 
    fetch(url , {
        method: 'POST',
-       headers: { 'Accept': 'application/json',
-                'Content-Type': 'application/json', },
+       headers: {
+                'Content-Type': 'application/javascript;charset=UTF-8',
+              },
        body: JSON.stringify({
              recipients: `${recipients}`,
              subject: `${subject}`,
@@ -324,14 +325,11 @@ function send_email(recipients, subject, body){
        })
        .then(response => response.json())
        .then(result => {
-           console.log('Success:', result);
-              alert("Message Sent!");
-              Location.reload();
-              load_mailbox('sent')
+            console.log("Message Sent!");
+            load_mailbox('sent')
        })
         .catch((error) => {
               console.error('Error:', error);
-              Location.reload();
               load_mailbox('sent')
         });
 }
