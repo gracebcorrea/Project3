@@ -44,6 +44,7 @@ function compose_email() {
         subject = document.querySelector('#compose-subject').value;
         body = document.querySelector('#compose-body').value;
         send_email(`${recipients}`, `${subject}`,`${body}`);
+        load_mailbox('sent');
         });
 }
 
@@ -325,12 +326,11 @@ function send_email(recipients, subject, body){
        })
        .then(response => response.json())
        .then(result => {
-            console.log("Message Sent!");
-            load_mailbox('sent')
+            alert("Message Sent!")
+
        })
         .catch((error) => {
-              console.error('Error:', error);
-              load_mailbox('sent')
+              console.error('Error:', error)
         });
 }
 
