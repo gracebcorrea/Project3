@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Use buttons to toggle between views
-    document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
-    document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
-    document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
+    document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox'), Mailbox_List('inbox')});
+    document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent'),Mailbox_List('sent')});
+    document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive'),Mailbox_List('archive')});
     document.querySelector('#compose').addEventListener('click', compose_email);
 
     // By default, load the inbox
     load_mailbox('inbox');
+    Mailbox_List('inbox');
 });
 
 window.onpopstate = function(event) {
@@ -59,7 +60,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
-  Mailbox_List(`${mailbox}`);
+//  Mailbox_List(`${mailbox}`);
 
 }
 
@@ -118,7 +119,7 @@ function Mailbox_List(mailbox){
           else {
               if (`${mailbox}` == "inbox") {
                  ediv.innerHTML = `
-                      <table class="table"  style="background-color:gray;">
+                      <table class="table"  style="background-color:#f2f2f2;">
                             <tbody>
                               <tr>
                                 <td style="width:300px">  ${e.sender}</td>
@@ -329,12 +330,17 @@ function send_email(recipients, subject, body){
        .then(result => {
             console.log(result);
             alert("Message Sent!")
+            load_mailbox('sent');
+            document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
+            Mailbox_List('sent');
+
 
        })
         .catch((error) => {
+              document.querySelector('#message').innerHTML=`<div class="alert alert-danger" >${error}</div>`;
               console.error('Error:', error)
         });
-  load_mailbox('sent');
+
 }
 
 
