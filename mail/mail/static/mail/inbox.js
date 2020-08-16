@@ -59,7 +59,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-  console.log( "load_mailbox", `${mailbox}`);
+  console.log( "load_mailbox:", mailbox);
 }
 
 
@@ -153,7 +153,7 @@ function Mailbox_List(mailbox){
   .catch(function(error) {
       document.querySelector('#message').innerHTML=`
            <div class="alert alert-danger" >
-                <span class="closebtn" onclick="window.close()"> ${error}  -  ${e.id}</span>
+                <span class="closebtn" onclick="window.close()"> error  -  ${e.id}</span>
            </div>`;
        window.stop();
 
@@ -328,10 +328,10 @@ function send_email(recipients, subject, body){
        })
        .then(response => response.json())
        .then(result => {
+            window.location.reload(true);
             load_mailbox('sent');
-            document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
             Mailbox_List('sent');
-
+            document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
 
        })
         .catch((error) => {
