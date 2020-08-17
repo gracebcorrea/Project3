@@ -328,11 +328,9 @@ function send_email(recipients, subject, body){
        })
        .then(response => response.json())
        .then(result => {
-            window.location.reload(true);
-            load_mailbox('sent');
-            Mailbox_List('sent');
-            document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
-
+             load_mailbox('sent');
+             Mailbox_List('sent');
+             document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
        })
         .catch((error) => {
               document.querySelector('#message').innerHTML=`<div class="alert alert-danger" >${error}</div>`;
