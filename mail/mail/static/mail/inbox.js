@@ -11,16 +11,16 @@ document.addEventListener('DOMContentLoaded', function () {
     Mailbox_List('inbox');
 
 
-    window.onpopstate = function(event) {
+/*    window.onpopstate = function(event) {
         console.log(event.state.section);
     }
 
     document.querySelectorAll('button').forEach(button => {
         button.onclick = function() {
             const section = this.dataset.section;
-            history.pushState({section: section}, "", `${section}`);
+            history.pushState({section: section}, "emails", `${section}`);
             };
-    });
+    });*/
 });
 
 function compose_email() {
@@ -75,7 +75,8 @@ function Mailbox_List(mailbox){
   .then(emails => {
       emails.forEach((e) => {
         console.log(e.id ,  mailbox );
-
+          seg = new Date();
+          console.log(e.id , seg.getSeconds( ) );
           const ediv = document.createElement('div');
           if (e.read == 0){
             if (`${mailbox}` == "inbox") {
@@ -154,7 +155,8 @@ function Mailbox_List(mailbox){
            <div class="alert alert-danger" >
                 <span class="closebtn" > error  -  ${e.id}</span>
            </div>`;
-       window.stop();
+             window.stop();
+
 
   });
 }
@@ -327,9 +329,10 @@ function send_email(recipients, subject, body){
        })
        .then(response => response.json())
        .then(result => {
-             load_mailbox('sent');
-             document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
-             Mailbox_List('sent');
+            load_mailbox('sent');
+            document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
+            Mailbox_List('sent');
+
        })
         .catch((error) => {
               document.querySelector('#message').innerHTML=`<div class="alert alert-danger" >${error}</div>`;
