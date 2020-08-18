@@ -30,6 +30,7 @@ function compose_email() {
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#emailslist').style.display = 'none';
   document.querySelector('#emaildetail').style.display = 'none';
+  document.querySelector('#message').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'block';
 
   // Clear out composition fields
@@ -54,111 +55,32 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#emailslist').style.display = 'block';
+  document.querySelector('#message').style.display = 'block';
   document.querySelector('#emaildetail').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-  console.log( "load_mailbox:", mailbox);
+
+
 }
 
 
 // See list of e-mails for each mailbox
 function Mailbox_List(mailbox){
-  const url = `/emails/${mailbox}`;
-  const mydiv = document.querySelector('#emailslist');
-  mydiv.innerHTML= "";
-  console.log("Mailbox_List:",`${mailbox}` );
+  if (mailbox == "inbox"){
+      Inbox_list();
 
-  fetch(url)
-  .then((response) => response.json())
-  .then(emails => {
-      emails.forEach((e) => {
-        console.log(e.id ,  mailbox );
-          seg = new Date();
-          console.log(e.id , seg.getSeconds( ) );
-          const ediv = document.createElement('div');
-          if (e.read == 0){
-            if (`${mailbox}` == "inbox") {
-                ediv.innerHTML = `
-                    <table class="table">
-                        <tbody>
-                               <tr>
-                                 <td style="width:300px"><strong> ${e.sender}</strong> </td>
-                                 <td style="width:200px"><strong> ${e.subject} </strong></td>
-                                 <td style="width:200px"><strong> ${e.timestamp} </strong></td>
-                                 <td style="width:100px;"><button class="btn" id="ViewEmail" onclick="ViewEmail(${e.id},'${mailbox}');"  >
-                                 <i class="fab fa-readme" style="font-size:24px;"></i>
-                                 </button></td>
-                               </tr>
-                        </tbody>
-                    </table>`;
-            }
-            else {
-                ediv.innerHTML = `
-                    <table class="table">
-                        <tbody>
-                              <tr>
-                                <td style="width:300px"><strong> ${e.recipients}</strong> </td>
-                                <td style="width:200px"><strong> ${e.subject} </strong></td>
-                                <td style="width:200px"><strong> ${e.timestamp} </strong></td>
-                                <td style="width:100px;"><button class="btn" id="ViewEmail"  onclick="ViewEmail(${e.id},'${mailbox}');"  >
-                                <i class="fab fa-readme" style="font-size:24px;"></i>
-                                </button></td>
-                              </tr>
-                        </tbody>
-                    </table>  `;
+  }
+  if (mailbox == "sent"){
+     Sent_list();
 
-            }
-          }
-          else {
-              if (`${mailbox}` == "inbox") {
-                 ediv.innerHTML = `
-                      <table class="table"  style="background-color:#f2f2f2;">
-                          <tbody>
-                              <tr>
-                                <td style="width:300px">  ${e.sender}</td>
-                                <td style="width:200px">  ${e.subject} </td>
-                                <td style="width:200px; align:right;">  ${e.timestamp} </td>
-                                <td style="width:100px;"><button class="btn" id="ViewEmail"  onclick="ViewEmail(${e.id},'${mailbox}');"  >
-                                <i class="fab fa-readme" style="font-size:24px;"></i>
-                                </button></td>
-                              </tr>
-                          </tbody>
-                      </table>`;
+  }
+  if (mailbox == "archive"){
+     Archived_list();
 
-              }
-              else{
-                  ediv.innerHTML = `
-                      <table class="table"  style="background-color:#f2f2f2  ;">
-                          <tbody>
-                              <tr>
-                                <td style="width:300px">  ${e.recipients}</td>
-                                <td style="width:200px">  ${e.subject} </td>
-                                <td style="width:200px; align:right;">  ${e.timestamp} </td>
-                                <td style="width:100px;"><button class="btn" id="ViewEmail"  onclick="ViewEmail(${e.id},'${mailbox}');"  >
-                                <i class="fab fa-readme" style="font-size:24px;"></i>
-                                </button></td>
-                              </tr>
-                          </tbody>
-                      </table>`;
-              }
+  }
 
-          }
-
-          document.querySelector('#emailslist').append(ediv);
-
-      })
-  })
-  .catch(function(error) {
-      document.querySelector('#message').innerHTML=`
-           <div class="alert alert-danger" >
-                <span class="closebtn" > error  -  ${e.id}</span>
-           </div>`;
-             window.stop();
-
-
-  });
 }
 
 //view all details from a selected e-mail
@@ -313,10 +235,10 @@ function Reply(id){
 
 
 function send_email(recipients, subject, body){
-   const url = '/emails';
+
    console.log("Inside SendMail : ", `${recipients}`,`${subject}`, `${body}`);
 
-   fetch(url , {
+   fetch('/emails' , {
        method: 'POST',
        headers: {
                 'Content-Type': 'application/javascript;charset=UTF-8',
@@ -331,7 +253,7 @@ function send_email(recipients, subject, body){
        .then(result => {
             load_mailbox('sent');
             document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
-            Mailbox_List('sent');
+            Sent_list();
 
        })
         .catch((error) => {
@@ -341,10 +263,139 @@ function send_email(recipients, subject, body){
 
 }
 
+function Sent_list(){
+    //new way
+    const sentdiv = document.querySelector('#emailslist');
+    sentdiv.innerHTML= "";
+    console.log("Sent_list()" );
+
+    fetch(`/emails/sent`)
+    .then((response) => response.json())
+    .then(emails => {
+            console.log(emails);
+            emails.forEach((s) => {
+                const newsent = document.createElement('div');
+                newsent.innerHTML = `
+                <table class="table"  style="background-color:#f2f2f2  ;">
+                        <tbody>
+                            <tr>
+                            <td style="width:300px">  ${s.recipients}</td>
+                            <td style="width:200px">  ${s.subject} </td>
+                            <td style="width:200px; align:right;">  ${s.timestamp} </td>
+                            <td style="width:100px;"><button class="btn" id="ViewEmail"  onclick="ViewEmail(${s.id},'sent');"  >
+                                <i class="fab fa-readme" style="font-size:24px;"></i>
+                            </button></td>
+                            </tr>
+                            </tbody>
+                      </table>`;
+
+                sentdiv.append(newsent);
+            })
+
+    })
+    .catch(function(error) {
+          document.querySelector('#message').innerHTML=`
+               <div class="alert alert-danger" >
+                    <span class="closebtn" > Sent error  -  ${error}</span>
+               </div>`;
+          window.stop();
+    })
+}
+
+function Archived_list(){
+
+  const archdiv = document.querySelector('#emailslist');
+  archdiv.innerHTML= "";
+  console.log("Archived_list()" );
+
+  fetch(`/emails/archive`)
+  .then((response) => response.json())
+  .then(emails => {
+        console.log(emails);
+        emails.forEach((a) => {
+            const adiv = document.createElement('div');
+            adiv.innerHTML = `
+                      <table class="table"  style="background-color:#f2f2f2  ;">
+                          <tbody>
+                              <tr>
+                                <td style="width:300px">  ${a.recipients}</td>
+                                <td style="width:200px">  ${a.subject} </td>
+                                <td style="width:200px; align:right;">  ${a.timestamp} </td>
+                                <td style="width:100px;"><button class="btn" id="ViewEmail"  onclick="ViewEmail(${a.id},'archive');"  >
+                                <i class="fab fa-readme" style="font-size:24px;"></i>
+                                </button></td>
+                              </tr>
+                          </tbody>
+                      </table>`;
+              archdiv.append(adiv);
+        })
+
+  })
+  .catch(function(error) {
+      document.querySelector('#message').innerHTML=`
+           <div class="alert alert-danger" >  Archive error  -  ${error}
+           </div>`;
+
+  });
+}
+
+function Inbox_list(){
+    const indiv = document.querySelector('#emailslist');
+    indiv.innerHTML= "";
+    console.log("Inbox_list()" );
+
+    fetch(`/emails/inbox`)
+    .then((response) => response.json())
+    .then(emails => {
+        console.log(emails);
+        emails.forEach((i) => {
+
+            const ediv = document.createElement('div');
+            if (i.read == 0){
+                  ediv.innerHTML = `
+                      <table class="table">
+                          <tbody>
+                                 <tr>
+                                   <td style="width:300px"><strong> ${i.sender}</strong> </td>
+                                   <td style="width:200px"><strong> ${i.subject} </strong></td>
+                                   <td style="width:200px"><strong> ${i.timestamp} </strong></td>
+                                   <td style="width:100px;"><button class="btn" id="ViewEmail" onclick="ViewEmail(${i.id},'inbox');"  >
+                                   <i class="fab fa-readme" style="font-size:24px;"></i>
+                                   </button></td>
+                                 </tr>
+                          </tbody>
+                      </table>`;
+            }
+            else {
+                 ediv.innerHTML = `
+                        <table class="table"  style="background-color:#f2f2f2;">
+                            <tbody>
+                                <tr>
+                                  <td style="width:300px">  ${i.sender}</td>
+                                  <td style="width:200px">  ${i.subject} </td>
+                                  <td style="width:200px; align:right;">  ${i.timestamp} </td>
+                                  <td style="width:100px;"><button class="btn" id="ViewEmail"  onclick="ViewEmail(${i.id},'inbox');"  >
+                                  <i class="fab fa-readme" style="font-size:24px;"></i>
+                                  </button></td>
+                                </tr>
+                            </tbody>
+                        </table>`;
+
+            }
+            indiv.append(ediv);
+
+        })
+    })
+    .catch(function(error) {
+        document.querySelector('#message').innerHTML=`
+             <div class="alert alert-danger" >  Inbox error  -  ${error}
+             </div>`;
 
 
 
+    });
 
+}
 
 /* no chrome usar :
 
