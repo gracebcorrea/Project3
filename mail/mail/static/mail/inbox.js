@@ -1,14 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Use buttons to toggle between views
-    document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox'), Mailbox_List('inbox')});
-    document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent'),Mailbox_List('sent')});
-    document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive'),Mailbox_List('archive')});
+    document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox'), Inbox_list()});
+    document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent'),Sent_list()});
+    document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive'),Archived_list()});
     document.querySelector('#compose').addEventListener('click', compose_email);
 
-    // By default, load the inbox
-    load_mailbox('inbox');
-    Mailbox_List('inbox');
+
+      // By default, load the inbox
+    (!window.localStorage.getItem('login'))
+    {
+      load_mailbox('inbox')
+      Inbox_list()
+     }
+    (!window.localStorage.setItem('login',1));
 
 
 /*    window.onpopstate = function(event) {
@@ -66,22 +71,6 @@ function load_mailbox(mailbox) {
 }
 
 
-// See list of e-mails for each mailbox
-function Mailbox_List(mailbox){
-  if (mailbox == "inbox"){
-      Inbox_list();
-
-  }
-  if (mailbox == "sent"){
-     Sent_list();
-
-  }
-  if (mailbox == "archive"){
-     Archived_list();
-
-  }
-
-}
 
 //view all details from a selected e-mail
 function ViewEmail(id, mailbox){
@@ -254,6 +243,7 @@ function send_email(recipients, subject, body){
             load_mailbox('sent');
             document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
             Sent_list();
+            myvar= setTimeout(Sent_list(), 9000);
 
        })
         .catch((error) => {
@@ -298,8 +288,10 @@ function Sent_list(){
                <div class="alert alert-danger" >
                     <span class="closebtn" > Sent error  -  ${error}</span>
                </div>`;
-          window.stop();
-    })
+
+    });
+
+
 }
 
 function Archived_list(){
@@ -368,7 +360,7 @@ function Inbox_list(){
             }
             else {
                  ediv.innerHTML = `
-                        <table class="table"  style="background-color:#f2f2f2;">
+                        <table class="table"  style="background-color:gray">
                             <tbody>
                                 <tr>
                                   <td style="width:300px">  ${i.sender}</td>
