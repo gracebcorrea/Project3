@@ -9,19 +9,19 @@ document.addEventListener('DOMContentLoaded', function () {
     // By default, load the inbox
     load_mailbox('inbox');
     Mailbox_List('inbox');
-});
 
-window.onpopstate = function(event) {
+
+    window.onpopstate = function(event) {
         console.log(event.state.section);
-}
+    }
 
-document.querySelectorAll('button').forEach(button => {
+    document.querySelectorAll('button').forEach(button => {
         button.onclick = function() {
             const section = this.dataset.section;
             history.pushState({section: section}, "", `${section}`);
             };
+    });
 });
-
 
 function compose_email() {
 
@@ -74,14 +74,14 @@ function Mailbox_List(mailbox){
   .then((response) => response.json())
   .then(emails => {
       emails.forEach((e) => {
-        //console.log(e.id ,  `${mailbox}` );
+        console.log(e.id ,  mailbox );
 
           const ediv = document.createElement('div');
           if (e.read == 0){
             if (`${mailbox}` == "inbox") {
-                  ediv.innerHTML = `
-                        <table class="table">
-                            <tbody>
+                ediv.innerHTML = `
+                    <table class="table">
+                        <tbody>
                                <tr>
                                  <td style="width:300px"><strong> ${e.sender}</strong> </td>
                                  <td style="width:200px"><strong> ${e.subject} </strong></td>
@@ -90,14 +90,13 @@ function Mailbox_List(mailbox){
                                  <i class="fab fa-readme" style="font-size:24px;"></i>
                                  </button></td>
                                </tr>
-                            </tbody>
-                        </table>`;
-
+                        </tbody>
+                    </table>`;
             }
             else {
                 ediv.innerHTML = `
                     <table class="table">
-                          <tbody>
+                        <tbody>
                               <tr>
                                 <td style="width:300px"><strong> ${e.recipients}</strong> </td>
                                 <td style="width:200px"><strong> ${e.subject} </strong></td>
@@ -106,7 +105,7 @@ function Mailbox_List(mailbox){
                                 <i class="fab fa-readme" style="font-size:24px;"></i>
                                 </button></td>
                               </tr>
-                          </tbody>
+                        </tbody>
                     </table>  `;
 
             }
@@ -115,7 +114,7 @@ function Mailbox_List(mailbox){
               if (`${mailbox}` == "inbox") {
                  ediv.innerHTML = `
                       <table class="table"  style="background-color:#f2f2f2;">
-                            <tbody>
+                          <tbody>
                               <tr>
                                 <td style="width:300px">  ${e.sender}</td>
                                 <td style="width:200px">  ${e.subject} </td>
@@ -124,7 +123,7 @@ function Mailbox_List(mailbox){
                                 <i class="fab fa-readme" style="font-size:24px;"></i>
                                 </button></td>
                               </tr>
-                            </tbody>
+                          </tbody>
                       </table>`;
 
               }
@@ -153,7 +152,7 @@ function Mailbox_List(mailbox){
   .catch(function(error) {
       document.querySelector('#message').innerHTML=`
            <div class="alert alert-danger" >
-                <span class="closebtn" onclick="window.close()"> error  -  ${e.id}</span>
+                <span class="closebtn" > error  -  ${e.id}</span>
            </div>`;
        window.stop();
 
@@ -329,8 +328,8 @@ function send_email(recipients, subject, body){
        .then(response => response.json())
        .then(result => {
              load_mailbox('sent');
-             Mailbox_List('sent');
              document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
+             Mailbox_List('sent');
        })
         .catch((error) => {
               document.querySelector('#message').innerHTML=`<div class="alert alert-danger" >${error}</div>`;
