@@ -13,8 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
         load_mailbox('inbox'),
         Inbox_list(),
         console.log("passou")
+        window.localStorage.setItem('login',1);
        }
-      window.localStorage.setItem('login',1);
+      else {
+        load_mailbox('sent'),
+        Sent_list();
+      }
 
 
 
@@ -231,7 +235,6 @@ function Reply(id){
 
 
 
-
 function send_email(recipients, subject, body){
 
    console.log("Inside SendMail : ", `${recipients}`,`${subject}`, `${body}`);
@@ -252,15 +255,12 @@ function send_email(recipients, subject, body){
             load_mailbox('sent');
             document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
             Sent_list();
-
-
-
        })
         .catch((error) => {
               document.querySelector('#message').innerHTML=`<div class="alert alert-danger" >${error}</div>`;
               console.error('Error:', error)
         });
-      window.stop();
+    //  window.stop();
 }
 
 function Sent_list(){
