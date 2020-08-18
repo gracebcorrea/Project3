@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Use buttons to toggle between views
-    document.querySelector('#compose').addEventListener('click', compose_email);
+    document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent'), Sent_list()});
     document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox'), Inbox_list()});
     document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive'),Archived_list()});
-    document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent'), Sent_list()});
+    document.querySelector('#compose').addEventListener('click', compose_email);
 
 
       // By default, load the inbox
@@ -74,6 +74,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  document.querySelector('#message').innerHTML="";
 
 
 }
@@ -252,12 +253,14 @@ function send_email(recipients, subject, body){
             document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
             Sent_list();
 
+
+
        })
         .catch((error) => {
               document.querySelector('#message').innerHTML=`<div class="alert alert-danger" >${error}</div>`;
               console.error('Error:', error)
         });
-
+      window.stop();
 }
 
 function Sent_list(){
