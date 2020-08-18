@@ -1,22 +1,23 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Use buttons to toggle between views
-    document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox'), Inbox_list()});
-    document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent'), Sent_list()});
-    document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive'),Archived_list()});
     document.querySelector('#compose').addEventListener('click', compose_email);
+    document.querySelector('#inbox').addEventListener('click', () => {load_mailbox('inbox'), Inbox_list()});
+    document.querySelector('#archived').addEventListener('click', () => {load_mailbox('archive'),Archived_list()});
+    document.querySelector('#sent').addEventListener('click', () => {load_mailbox('sent'), Sent_list()});
 
 
       // By default, load the inbox
-      If(!window.localStorage.getItem('login'))
+      if(window.localStorage.getItem('login') == null )
       {
-        load_mailbox('inbox')
-        Inbox_list()
+        load_mailbox('inbox'),
+        Inbox_list(),
         console.log("passou")
        }
       window.localStorage.setItem('login',1);
 
-/*    window.onpopstate = function(event) {
+
+  /*  window.onpopstate = function(event) {
         console.log(event.state.section);
     }
 
@@ -26,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
             history.pushState({section: section}, "emails", `${section}`);
             };
     });*/
+
+
 });
 
 function compose_email() {
@@ -243,7 +246,6 @@ function send_email(recipients, subject, body){
             load_mailbox('sent');
             document.querySelector('#message').innerHTML=`<div class="alert alert-success" >Message Sent!</div>`;
             Sent_list();
-            myvar= setTimeout(Sent_list(), 9000);
 
        })
         .catch((error) => {
