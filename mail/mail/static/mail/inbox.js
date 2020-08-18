@@ -17,6 +17,11 @@ document.addEventListener('DOMContentLoaded', function () {
       window.localStorage.setItem('login',1);
 
 
+
+
+
+
+
   /*  window.onpopstate = function(event) {
         console.log(event.state.section);
     }
